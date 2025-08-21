@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تقی پور نشر</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
@@ -16,8 +17,12 @@
             --dark-color: #2d3e50;
             --gray-color: #e9ecef;
             --text-color: #333;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
             --border-radius: 12px;
             --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
         
         * {
@@ -29,64 +34,141 @@
         body {
             font-family: Tahoma, Arial, sans-serif;
             direction: rtl;
-            padding: 20px;
+            padding: 0;
             background: #f0f2f5;
             color: var(--text-color);
             line-height: 1.6;
         }
         
         .container {
-            max-width: 600px;
-            margin: 30px auto;
+            max-width: 1000px;
+            margin: 0 auto;
             background: #fff;
-            padding: 30px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
         }
         
-        .header {
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid var(--gray-color);
+            justify-content: space-between;
+            border-bottom: 5px solid var(--accent-color);
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
         }
         
         .logo {
             width: 60px;
             height: 60px;
             margin-left: 15px;
+            border-radius: 50%;
+            background: white;
+            padding: 5px;
         }
         
-        h2 {
-            color: var(--primary-color);
+        h1 {
             font-size: 24px;
+            margin: 0;
         }
         
-        input, textarea {
-            width: 100%;
-            margin: 10px 0;
-            padding: 14px;
+        nav {
+            background: var(--dark-color);
+            padding: 10px 20px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            justify-content: center;
+        }
+        
+        nav li {
+            margin: 0 15px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
             border-radius: var(--border-radius);
-            border: 1px solid #ddd;
-            font-family: inherit;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
         
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: var(--secondary-color);
-            box-shadow: 0 0 0 3px rgba(110, 156, 210, 0.2);
+        nav a:hover, nav a.active {
+            background: var(--accent-color);
         }
         
-        textarea {
-            min-height: 120px;
-            resize: vertical;
+        .main-content {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 30px;
+        }
+        
+        .sidebar {
+            background: var(--light-color);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            height: fit-content;
+        }
+        
+        .content {
+            min-height: 500px;
+        }
+        
+        .user-card {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 20px;
+        }
+        
+        .user-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--secondary-color);
+            margin: 0 auto 15px;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .stat {
+            background: var(--light-color);
+            padding: 10px;
+            border-radius: var(--border-radius);
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 20px 0;
         }
         
         button {
-            padding: 12px 24px;
+            padding: 12px;
             border: none;
             border-radius: var(--border-radius);
             background: var(--primary-color);
@@ -94,119 +176,412 @@
             cursor: pointer;
             font-family: inherit;
             font-weight: bold;
-            transition: all 0.3s ease;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
         
         button:hover {
-            background: var(--secondary-color);
+            opacity: 0.9;
             transform: translateY(-2px);
         }
         
-        #login-btn {
+        button i {
+            font-size: 16px;
+        }
+        
+        .btn-login {
             background: #db4437;
         }
         
-        #login-btn:hover {
-            background: #c03a2e;
-        }
-        
-        #logout-btn {
+        .btn-logout {
             background: var(--dark-color);
         }
         
-        #logout-btn:hover {
-            background: #3d5061;
+        .btn-primary {
+            background: var(--primary-color);
+        }
+        
+        .btn-success {
+            background: var(--success-color);
+        }
+        
+        .btn-danger {
+            background: var(--danger-color);
+        }
+        
+        .btn-warning {
+            background: var(--warning-color);
+            color: var(--dark-color);
+        }
+        
+        .tweet-box {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+        }
+        
+        textarea {
+            width: 100%;
+            margin: 10px 0;
+            padding: 14px;
+            border-radius: var(--border-radius);
+            border: 1px solid #ddd;
+            font-family: inherit;
+            transition: var(--transition);
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(110, 156, 210, 0.2);
         }
         
         .tweet {
             background: var(--light-color);
-            padding: 18px;
-            margin: 18px 0;
+            padding: 20px;
+            margin: 20px 0;
             border-radius: var(--border-radius);
             border-right: 4px solid var(--accent-color);
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s ease;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            position: relative;
         }
         
         .tweet:hover {
             transform: translateX(-5px);
         }
         
+        .tweet-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .tweet-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-left: 15px;
+            border: 2px solid var(--secondary-color);
+        }
+        
         .tweet-user {
             font-weight: bold;
             color: var(--primary-color);
-            margin-bottom: 8px;
+        }
+        
+        .tweet-time {
+            font-size: 12px;
+            color: #777;
+            margin-right: 10px;
         }
         
         .tweet-text {
             color: var(--text-color);
             line-height: 1.6;
+            margin-bottom: 15px;
         }
         
-        .user-info {
-            font-weight: bold;
-            margin: 15px 0;
-            color: var(--dark-color);
-            padding: 12px;
-            background: var(--gray-color);
-            border-radius: var(--border-radius);
+        .tweet-actions {
+            display: flex;
+            gap: 15px;
+            border-top: 1px solid #ddd;
+            padding-top: 15px;
         }
         
-        .tweets-header {
-            margin: 25px 0 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--gray-color);
+        .tweet-action {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #777;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .tweet-action:hover {
             color: var(--primary-color);
         }
         
-        .action-buttons {
-            display: flex;
-            gap: 12px;
-            margin: 15px 0;
+        .tweet-action.liked {
+            color: var(--danger-color);
         }
         
-        @media (max-width: 650px) {
-            .container {
-                padding: 20px;
-                margin: 15px auto;
+        .tweet-action.saved {
+            color: var(--warning-color);
+        }
+        
+        .comments-section {
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: var(--border-radius);
+            border: 1px solid #ddd;
+        }
+        
+        .comment {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .comment:last-child {
+            border-bottom: none;
+        }
+        
+        .comment-form {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .comment-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+        }
+        
+        footer {
+            background: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            text-align: right;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 15px;
+            color: var(--accent-color);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        
+        .social-icons a {
+            color: white;
+            font-size: 20px;
+            transition: var(--transition);
+        }
+        
+        .social-icons a:hover {
+            color: var(--accent-color);
+        }
+        
+        .copyright {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        .admin-badge {
+            background: var(--danger-color);
+            color: white;
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin-right: 10px;
+        }
+        
+        .edit-buttons {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
             }
             
-            .header {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav li {
+                margin: 5px 0;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            header {
                 flex-direction: column;
                 text-align: center;
             }
             
-            .logo {
-                margin: 0 0 15px 0;
-            }
-            
-            .action-buttons {
-                flex-direction: column;
+            .logo-container {
+                margin-bottom: 15px;
             }
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <div class="header">
-        <img src="file:///D:/%D8%AA%D9%82%DB%8C%20%D9%BE%D9%88%D8%B1%20%D9%86%D8%B4%D8%B1/logo/logo-svg.svg" alt="تقی پور نشر" class="logo">
-        <h2>تقی پور نشر</h2>
+    <header>
+        <div class="logo-container">
+            <img src="file:///D:/%D8%AA%D9%82%DB%8C%20%D9%BE%D9%88%D8%B1%20%D9%86%D8%B4%D8%B1/logo/logo-svg.svg" alt="تقی پور نشر" class="logo">
+            <h1>تقی پور نشر</h1>
+        </div>
+        <div id="user-info"></div>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="#" class="nav-link active" data-page="home">خانه</a></li>
+            <li><a href="#" class="nav-link" data-page="about">درباره ما</a></li>
+            <li><a href="#" class="nav-link" data-page="contact">تماس با ما</a></li>
+        </ul>
+    </nav>
+    
+    <div class="main-content">
+        <aside class="sidebar">
+            <div class="action-buttons">
+                <button id="login-btn" class="btn-login"><i class="fas fa-sign-in-alt"></i> ورود با گوگل</button>
+                <button id="register-btn" class="btn-success"><i class="fas fa-user-plus"></i> ثبت نام با ایمیل</button>
+                <button id="logout-btn" class="btn-logout" style="display:none;"><i class="fas fa-sign-out-alt"></i> خروج</button>
+            </div>
+            
+            <div id="user-profile" style="display:none;">
+                <div class="user-card">
+                    <img src="https://ui-avatars.com/api/?name=User&background=4a6fa5&color=fff" id="user-avatar" class="user-avatar">
+                    <h3 id="profile-name">نام کاربری</h3>
+                    <p id="profile-email">email@example.com</p>
+                    
+                    <div class="stats">
+                        <div class="stat">
+                            <div class="stat-number">12</div>
+                            <div>توییت ها</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">45</div>
+                            <div>لایک ها</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        
+        <main class="content">
+            <div id="home-page" class="page active">
+                <div id="tweet-box" style="display:none;">
+                    <div class="tweet-box">
+                        <h3><i class="fas fa-pen"></i> نوشتن توییت جدید</h3>
+                        <textarea id="tweet-input" placeholder="چیزی که فکر می‌کنید را اینجا بنویسید..."></textarea>
+                        <button id="post-btn" class="btn-primary"><i class="fas fa-paper-plane"></i> ارسال توییت</button>
+                    </div>
+                </div>
+
+                <h3><i class="fas fa-stream"></i> آخرین توییت‌ها</h3>
+                <div id="tweets"></div>
+            </div>
+            
+            <div id="about-page" class="page">
+                <div class="tweet-box">
+                    <h2><i class="fas fa-info-circle"></i> درباره تقی پور نشر</h2>
+                    <p>تقی پور نشر یک پلتفرم اجتماعی برای به اشتراک گذاری افکار و ایده‌ها است. ما باور داریم که هر کسی داستان‌های ارزشمندی برای به اشتراک گذاری دارد.</p>
+                    
+                    <h3><i class="fas fa-rocket"></i> امکانات پلتفرم</h3>
+                    <ul>
+                        <li>اشتراک گذاری توییت با جامعه</li>
+                        <li>تعامل با لایک و کامنت</li>
+                        <li>ذخیره توییت‌های مورد علاقه</li>
+                        <li>پروفایل شخصی سازی شده</li>
+                        <li>و بسیاری امکانات دیگر...</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div id="contact-page" class="page">
+                <div class="tweet-box">
+                    <h2><i class="fas fa-envelope"></i> تماس با ما</h2>
+                    <p>برای ارتباط با ما می‌توانید از طریق اطلاعات زیر اقدام کنید:</p>
+                    
+                    <div class="contact-info">
+                        <p><i class="fas fa-map-marker-alt"></i> آدرس: تهران، خیابان آزادی، دانشگاه صنعتی شریف</p>
+                        <p><i class="fas fa-phone"></i> تلفن: ۰۲۱-۶۶۱۶۶۱۶۶</p>
+                        <p><i class="fas fa-envelope"></i> ایمیل: info@taghipour-nashr.ir</p>
+                    </div>
+                    
+                    <h3><i class="fas fa-comment"></i> ارسال پیام</h3>
+                    <form>
+                        <input type="text" placeholder="نام شما" class="comment-input" style="margin-bottom: 10px;">
+                        <input type="email" placeholder="ایمیل شما" class="comment-input" style="margin-bottom: 10px;">
+                        <textarea placeholder="متن پیام شما" class="comment-input" style="margin-bottom: 10px;"></textarea>
+                        <button type="submit" class="btn-primary"><i class="fas fa-paper-plane"></i> ارسال پیام</button>
+                    </form>
+                </div>
+            </div>
+        </main>
     </div>
     
-    <div id="user-info"></div>
-    
-    <div class="action-buttons">
-        <button id="login-btn">ورود با گوگل</button>
-        <button id="logout-btn" style="display:none;">خروج</button>
-    </div>
-
-    <div id="tweet-box" style="display:none;">
-        <textarea id="tweet-input" placeholder="چی فکر می‌کنید؟"></textarea>
-        <button id="post-btn">ارسال توییت</button>
-    </div>
-
-    <h3 class="tweets-header">توییت‌ها:</h3>
-    <div id="tweets"></div>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>درباره ما</h3>
+                <p>تقی پور نشر یک پلتفرم اجتماعی برای به اشتراک گذاری افکار و ایده‌ها است.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>لینک های مفید</h3>
+                <p><a href="#" style="color: #fff;">قوانین و مقررات</a></p>
+                <p><a href="#" style="color: #fff;">حریم خصوصی</a></p>
+                <p><a href="#" style="color: #fff;">پرسش های متداول</a></p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>شبکه های اجتماعی</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>© 2023 تقی پور نشر - تمام حقوق محفوظ است</p>
+        </div>
+    </footer>
 </div>
 
 <script>
@@ -226,19 +601,57 @@
   const auth = firebase.auth();
   const db = firebase.firestore();
 
+  // Elements
   const loginBtn = document.getElementById("login-btn");
+  const registerBtn = document.getElementById("register-btn");
   const logoutBtn = document.getElementById("logout-btn");
   const userInfo = document.getElementById("user-info");
+  const userProfile = document.getElementById("user-profile");
+  const profileName = document.getElementById("profile-name");
+  const profileEmail = document.getElementById("profile-email");
+  const userAvatar = document.getElementById("user-avatar");
   const tweetBox = document.getElementById("tweet-box");
   const postBtn = document.getElementById("post-btn");
   const tweetInput = document.getElementById("tweet-input");
   const tweetsDiv = document.getElementById("tweets");
+  const navLinks = document.querySelectorAll('.nav-link');
+  const pages = document.querySelectorAll('.page');
 
-  // Login
+  // Navigation
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const pageId = link.getAttribute('data-page') + '-page';
+      
+      // Update active link
+      navLinks.forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+      
+      // Show selected page
+      pages.forEach(page => page.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+    });
+  });
+
+  // Login with Google
   loginBtn.onclick = () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider)
       .catch(err => alert("خطا در ورود: " + err.message));
+  }
+
+  // Register with email (simplified for demo)
+  registerBtn.onclick = () => {
+    const email = prompt("لطفا ایمیل خود را وارد کنید:");
+    const password = prompt("لطفا رمز عبور خود را وارد کنید:");
+    
+    if (email && password) {
+      auth.createUserWithEmailAndPassword(email, password)
+        .then(() => {
+          alert("حساب کاربری با موفقیت ایجاد شد!");
+        })
+        .catch(err => alert("خطا در ثبت نام: " + err.message));
+    }
   }
 
   // Logout
@@ -247,15 +660,33 @@
   // Auth state
   auth.onAuthStateChanged(user => {
     if (user) {
-      userInfo.innerHTML = `<div class="user-info">سلام، ${user.displayName}!</div>`;
+      userInfo.innerHTML = `
+        <div style="display: flex; align-items: center;">
+          <img src="${user.photoURL || 'https://ui-avatars.com/api/?name=' + user.displayName + '&background=4a6fa5&color=fff'}" 
+               style="width: 40px; height: 40px; border-radius: 50%; margin-left: 10px;">
+          <div>
+            <div>سلام، ${user.displayName || user.email}!</div>
+            <small>خوش آمدید</small>
+          </div>
+        </div>
+      `;
+      
+      profileName.textContent = user.displayName || "کاربر";
+      profileEmail.textContent = user.email;
+      userAvatar.src = user.photoURL || 'https://ui-avatars.com/api/?name=' + (user.displayName || "User") + '&background=4a6fa5&color=fff';
+      
       loginBtn.style.display = "none";
-      logoutBtn.style.display = "inline-block";
+      registerBtn.style.display = "none";
+      logoutBtn.style.display = "block";
+      userProfile.style.display = "block";
       tweetBox.style.display = "block";
       loadTweets();
     } else {
       userInfo.innerHTML = "";
-      loginBtn.style.display = "inline-block";
+      loginBtn.style.display = "block";
+      registerBtn.style.display = "block";
       logoutBtn.style.display = "none";
+      userProfile.style.display = "none";
       tweetBox.style.display = "none";
       tweetsDiv.innerHTML = "";
     }
@@ -266,24 +697,31 @@
     const text = tweetInput.value.trim();
     if (!text) return alert("لطفاً متنی برای ارسال وارد کنید");
     
-    // دکمه را غیرفعال می‌کنیم تا از ارسال چندباره جلوگیری شود
+    // Disable button to prevent multiple submissions
     postBtn.disabled = true;
-    postBtn.textContent = "در حال ارسال...";
+    postBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> در حال ارسال...';
     
     db.collection("tweets").add({
       text,
-      user: auth.currentUser.displayName,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      user: auth.currentUser.displayName || auth.currentUser.email,
+      userId: auth.currentUser.uid,
+      userAvatar: auth.currentUser.photoURL,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      likes: 0,
+      likedBy: [],
+      saves: 0,
+      savedBy: [],
+      comments: []
     })
     .then(() => {
       tweetInput.value = "";
       postBtn.disabled = false;
-      postBtn.textContent = "ارسال توییت";
+      postBtn.innerHTML = '<i class="fas fa-paper-plane"></i> ارسال توییت';
     })
     .catch(err => {
       alert("خطا در ارسال توییت: " + err.message);
       postBtn.disabled = false;
-      postBtn.textContent = "ارسال توییت";
+      postBtn.innerHTML = '<i class="fas fa-paper-plane"></i> ارسال توییت';
     });
   }
 
@@ -297,20 +735,111 @@
           const div = document.createElement("div");
           div.className = "tweet";
           div.innerHTML = `
-            <div class="tweet-user">${data.user}</div>
+            <div class="edit-buttons">
+              ${data.userId === auth.currentUser?.uid ? `
+                <button class="btn-warning btn-small"><i class="fas fa-edit"></i></button>
+                <button class="btn-danger btn-small"><i class="fas fa-trash"></i></button>
+              ` : ''}
+            </div>
+            <div class="tweet-header">
+              <img src="${data.userAvatar || 'https://ui-avatars.com/api/?name=' + data.user + '&background=4a6fa5&color=fff'}" 
+                   class="tweet-avatar">
+              <div>
+                <div class="tweet-user">${data.user} ${data.userId === auth.currentUser?.uid ? '<span class="admin-badge">شما</span>' : ''}</div>
+                <div class="tweet-time">${formatTime(data.timestamp?.toDate())}</div>
+              </div>
+            </div>
             <div class="tweet-text">${data.text}</div>
+            <div class="tweet-actions">
+              <div class="tweet-action ${data.likedBy?.includes(auth.currentUser?.uid) ? 'liked' : ''}" data-id="${doc.id}">
+                <i class="fas fa-heart"></i> <span>${data.likes || 0}</span>
+              </div>
+              <div class="tweet-action" data-id="${doc.id}">
+                <i class="fas fa-comment"></i> <span>${data.comments?.length || 0}</span>
+              </div>
+              <div class="tweet-action ${data.savedBy?.includes(auth.currentUser?.uid) ? 'saved' : ''}" data-id="${doc.id}">
+                <i class="fas fa-bookmark"></i> <span>ذخیره</span>
+              </div>
+              <div class="tweet-action" data-id="${doc.id}">
+                <i class="fas fa-share-alt"></i> <span>اشتراک‌گذاری</span>
+              </div>
+            </div>
+            <div class="comments-section">
+              <h4>نظرات:</h4>
+              <div class="comments-list">
+                ${data.comments ? data.comments.map(comment => `
+                  <div class="comment">
+                    <strong>${comment.user}:</strong> ${comment.text}
+                  </div>
+                `).join('') : '<p>هنوز نظری وجود ندارد</p>'}
+              </div>
+              <div class="comment-form">
+                <input type="text" class="comment-input" placeholder="نظر خود را بنویسید...">
+                <button class="btn-primary">ارسال</button>
+              </div>
+            </div>
           `;
           tweetsDiv.appendChild(div);
         });
         
-        // اگر توییتی وجود ندارد پیام نشان داده شود
+        // Add event listeners for like actions
+        document.querySelectorAll('.tweet-action').forEach(action => {
+          action.addEventListener('click', (e) => {
+            const tweetId = action.getAttribute('data-id');
+            if (action.querySelector('.fa-heart')) {
+              likeTweet(tweetId);
+            } else if (action.querySelector('.fa-bookmark')) {
+              saveTweet(tweetId);
+            }
+          });
+        });
+        
+        // If no tweets
         if (snapshot.empty) {
-          tweetsDiv.innerHTML = `<div style="text-align: center; padding: 20px; color: #666;">هنوز توییتی وجود ندارد. اولین نفر باشید!</div>`;
+          tweetsDiv.innerHTML = `
+            <div class="tweet-box" style="text-align: center;">
+              <i class="fas fa-feather-alt" style="font-size: 48px; color: #4a6fa5; margin-bottom: 15px;"></i>
+              <h3>هنوز توییتی وجود ندارد</h3>
+              <p>اولین نفری باشید که توییت می‌کند!</p>
+            </div>
+          `;
         }
       }, err => {
         console.error("Error loading tweets: ", err);
-        tweetsDiv.innerHTML = `<div style="text-align: center; padding: 20px; color: #d32f2f;">خطا در بارگذاری توییت‌ها</div>`;
+        tweetsDiv.innerHTML = `
+          <div class="tweet-box" style="text-align: center; color: #dc3545;">
+            <i class="fas fa-exclamation-triangle" style="font-size: 48px; margin-bottom: 15px;"></i>
+            <h3>خطا در بارگذاری توییت‌ها</h3>
+            <p>لطفاً دوباره تلاش کنید</p>
+          </div>
+        `;
       });
+  }
+
+  // Like a tweet
+  function likeTweet(tweetId) {
+    // This would be implemented with Firebase update
+    alert(`لایک کردن توییت ${tweetId} (پیاده‌سازی کامل نیاز به تنظیم قوانین امنیتی Firebase دارد)`);
+  }
+
+  // Save a tweet
+  function saveTweet(tweetId) {
+    // This would be implemented with Firebase update
+    alert(`ذخیره کردن توییت ${tweetId} (پیاده‌سازی کامل نیاز به تنظیم قوانین امنیتی Firebase دارد)`);
+  }
+
+  // Format time
+  function formatTime(date) {
+    if (!date) return 'زمان نامعلوم';
+    
+    const now = new Date();
+    const diff = now - date;
+    
+    if (diff < 60000) return 'همین الان';
+    if (diff < 3600000) return `${Math.floor(diff / 60000)} دقیقه پیش`;
+    if (diff < 86400000) return `${Math.floor(diff / 3600000)} ساعت پیش`;
+    
+    return date.toLocaleDateString('fa-IR');
   }
 </script>
 </body>
