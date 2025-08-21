@@ -140,26 +140,6 @@
             margin: 0 auto 15px;
         }
         
-        .stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        .stat {
-            background: var(--light-color);
-            padding: 10px;
-            border-radius: var(--border-radius);
-            text-align: center;
-        }
-        
-        .stat-number {
-            font-size: 18px;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-        
         .action-buttons {
             display: flex;
             flex-direction: column;
@@ -314,38 +294,26 @@
             color: var(--danger-color);
         }
         
-        .tweet-action.saved {
-            color: var(--warning-color);
+        .admin-badge {
+            background: var(--danger-color);
+            color: white;
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 20px;
+            margin-right: 10px;
         }
         
-        .comments-section {
-            margin-top: 15px;
-            padding: 15px;
-            background: white;
-            border-radius: var(--border-radius);
-            border: 1px solid #ddd;
-        }
-        
-        .comment {
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .comment:last-child {
-            border-bottom: none;
-        }
-        
-        .comment-form {
+        .edit-buttons {
+            position: absolute;
+            left: 20px;
+            top: 20px;
             display: flex;
             gap: 10px;
-            margin-top: 15px;
         }
         
-        .comment-input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: var(--border-radius);
+        .btn-small {
+            padding: 6px 10px;
+            font-size: 12px;
         }
         
         footer {
@@ -358,7 +326,7 @@
         
         .footer-content {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 30px;
             text-align: right;
         }
@@ -391,14 +359,6 @@
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
         .page {
             display: none;
         }
@@ -407,21 +367,76 @@
             display: block;
         }
         
-        .admin-badge {
-            background: var(--danger-color);
-            color: white;
-            font-size: 12px;
-            padding: 2px 8px;
-            border-radius: 20px;
-            margin-right: 10px;
+        .settings-panel {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
         }
         
-        .edit-buttons {
-            position: absolute;
-            left: 20px;
-            top: 20px;
+        .settings-group {
+            margin-bottom: 20px;
+        }
+        
+        .settings-group h3 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--light-color);
+            padding-bottom: 10px;
+        }
+        
+        .setting-item {
             display: flex;
-            gap: 10px;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--light-color);
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
         }
         
         @media (max-width: 768px) {
@@ -467,8 +482,8 @@
     <nav>
         <ul>
             <li><a href="#" class="nav-link active" data-page="home">خانه</a></li>
-            <li><a href="#" class="nav-link" data-page="about">درباره ما</a></li>
-            <li><a href="#" class="nav-link" data-page="contact">تماس با ما</a></li>
+            <li><a href="#" class="nav-link" data-page="rules">قوانین و مقررات</a></li>
+            <li><a href="#" class="nav-link" data-page="settings">تنظیمات</a></li>
         </ul>
     </nav>
     
@@ -476,7 +491,6 @@
         <aside class="sidebar">
             <div class="action-buttons">
                 <button id="login-btn" class="btn-login"><i class="fas fa-sign-in-alt"></i> ورود با گوگل</button>
-                <button id="register-btn" class="btn-success"><i class="fas fa-user-plus"></i> ثبت نام با ایمیل</button>
                 <button id="logout-btn" class="btn-logout" style="display:none;"><i class="fas fa-sign-out-alt"></i> خروج</button>
             </div>
             
@@ -485,17 +499,6 @@
                     <img src="https://ui-avatars.com/api/?name=User&background=4a6fa5&color=fff" id="user-avatar" class="user-avatar">
                     <h3 id="profile-name">نام کاربری</h3>
                     <p id="profile-email">email@example.com</p>
-                    
-                    <div class="stats">
-                        <div class="stat">
-                            <div class="stat-number">12</div>
-                            <div>توییت ها</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-number">45</div>
-                            <div>لایک ها</div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </aside>
@@ -514,40 +517,112 @@
                 <div id="tweets"></div>
             </div>
             
-            <div id="about-page" class="page">
+            <div id="rules-page" class="page">
                 <div class="tweet-box">
-                    <h2><i class="fas fa-info-circle"></i> درباره تقی پور نشر</h2>
-                    <p>تقی پور نشر یک پلتفرم اجتماعی برای به اشتراک گذاری افکار و ایده‌ها است. ما باور داریم که هر کسی داستان‌های ارزشمندی برای به اشتراک گذاری دارد.</p>
+                    <h2><i class="fas fa-gavel"></i> قوانین و مقررات</h2>
+                    <p>با استفاده از پلتفرم تقی پور نشر، شما موافقت می‌کنید که به قوانین و مقررات زیر پایبند باشید:</p>
                     
-                    <h3><i class="fas fa-rocket"></i> امکانات پلتفرم</h3>
+                    <h3><i class="fas fa-exclamation-circle"></i> قوانین محتوایی</h3>
                     <ul>
-                        <li>اشتراک گذاری توییت با جامعه</li>
-                        <li>تعامل با لایک و کامنت</li>
-                        <li>ذخیره توییت‌های مورد علاقه</li>
-                        <li>پروفایل شخصی سازی شده</li>
-                        <li>و بسیاری امکانات دیگر...</li>
+                        <li>ارسال محتوای توهین‌آمیز، نفرت‌پراکنی یا تبعیض‌آمیز ممنوع است</li>
+                        <li>هرزنامه‌ها و محتوای تبلیغاتی غیرمجاز حذف خواهند شد</li>
+                        <li>محتوای دارای حق کپی‌رایت بدون اجازه صاحب اثر مجاز نیست</li>
+                        <li>حریم خصوصی دیگر کاربران باید رعایت شود</li>
                     </ul>
+                    
+                    <h3><i class="fas fa-user-shield"></i> قوانین حساب کاربری</h3>
+                    <ul>
+                        <li>هر کاربر تنها می‌تواند یک حساب کاربری داشته باشد</li>
+                        <li>حساب‌های کاربری جعلی یا با هویت غیرواقعی حذف خواهند شد</li>
+                        <li>کاربر مسئول حفظ امنیت حساب کاربری خود است</li>
+                    </ul>
+                    
+                    <h3><i class="fas fa-balance-scale"></i> مقررات عمومی</h3>
+                    <ul>
+                        <li>مدیریت پلتفرم حق حذف محتوای متخلف را دارد</li>
+                        <li>در صورت نقض مکرر قوانین، حساب کاربری مسدود خواهد شد</li>
+                        <li>این قوانین ممکن است در آینده تغییر کنند</li>
+                    </ul>
+                    
+                    <p class="copyright" style="margin-top: 20px;">
+                        آخرین به‌روزرسانی: ۱۴۰۲/۰۵/۱۵
+                    </p>
                 </div>
             </div>
             
-            <div id="contact-page" class="page">
-                <div class="tweet-box">
-                    <h2><i class="fas fa-envelope"></i> تماس با ما</h2>
-                    <p>برای ارتباط با ما می‌توانید از طریق اطلاعات زیر اقدام کنید:</p>
+            <div id="settings-page" class="page">
+                <div class="settings-panel">
+                    <h2><i class="fas fa-cog"></i> تنظیمات</h2>
                     
-                    <div class="contact-info">
-                        <p><i class="fas fa-map-marker-alt"></i> آدرس: تهران، خیابان آزادی، دانشگاه صنعتی شریف</p>
-                        <p><i class="fas fa-phone"></i> تلفن: ۰۲۱-۶۶۱۶۶۱۶۶</p>
-                        <p><i class="fas fa-envelope"></i> ایمیل: info@taghipour-nashr.ir</p>
+                    <div class="settings-group">
+                        <h3>تنظیمات حریم خصوصی</h3>
+                        <div class="setting-item">
+                            <span>حساب خصوصی</span>
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <span>اجازه دادن به تگ در توییت‌ها</span>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <span>نمایش فعالیت آنلاین</span>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
                     </div>
                     
-                    <h3><i class="fas fa-comment"></i> ارسال پیام</h3>
-                    <form>
-                        <input type="text" placeholder="نام شما" class="comment-input" style="margin-bottom: 10px;">
-                        <input type="email" placeholder="ایمیل شما" class="comment-input" style="margin-bottom: 10px;">
-                        <textarea placeholder="متن پیام شما" class="comment-input" style="margin-bottom: 10px;"></textarea>
-                        <button type="submit" class="btn-primary"><i class="fas fa-paper-plane"></i> ارسال پیام</button>
-                    </form>
+                    <div class="settings-group">
+                        <h3>تنظیمات اعلان‌ها</h3>
+                        <div class="setting-item">
+                            <span>اعلان لایک</span>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <span>اعلان توییت‌های جدید</span>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <span>اعلان از طریق ایمیل</span>
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-group">
+                        <h3>تنظیمات نمایش</h3>
+                        <div class="setting-item">
+                            <span>حالت شب</span>
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item">
+                            <span>فونت درشت</span>
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-primary"><i class="fas fa-save"></i> ذخیره تنظیمات</button>
                 </div>
             </div>
         </main>
@@ -561,19 +636,10 @@
             </div>
             
             <div class="footer-section">
-                <h3>لینک های مفید</h3>
-                <p><a href="#" style="color: #fff;">قوانین و مقررات</a></p>
-                <p><a href="#" style="color: #fff;">حریم خصوصی</a></p>
-                <p><a href="#" style="color: #fff;">پرسش های متداول</a></p>
-            </div>
-            
-            <div class="footer-section">
                 <h3>شبکه های اجتماعی</h3>
                 <div class="social-icons">
-                    <a href="#"><i class="fab fa-telegram"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://www.instagram.com/parhammmm322/" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://t.me/mmdparham91" target="_blank"><i class="fab fa-telegram"></i></a>
                 </div>
             </div>
         </div>
@@ -603,7 +669,6 @@
 
   // Elements
   const loginBtn = document.getElementById("login-btn");
-  const registerBtn = document.getElementById("register-btn");
   const logoutBtn = document.getElementById("logout-btn");
   const userInfo = document.getElementById("user-info");
   const userProfile = document.getElementById("user-profile");
@@ -640,20 +705,6 @@
       .catch(err => alert("خطا در ورود: " + err.message));
   }
 
-  // Register with email (simplified for demo)
-  registerBtn.onclick = () => {
-    const email = prompt("لطفا ایمیل خود را وارد کنید:");
-    const password = prompt("لطفا رمز عبور خود را وارد کنید:");
-    
-    if (email && password) {
-      auth.createUserWithEmailAndPassword(email, password)
-        .then(() => {
-          alert("حساب کاربری با موفقیت ایجاد شد!");
-        })
-        .catch(err => alert("خطا در ثبت نام: " + err.message));
-    }
-  }
-
   // Logout
   logoutBtn.onclick = () => auth.signOut();
 
@@ -676,7 +727,6 @@
       userAvatar.src = user.photoURL || 'https://ui-avatars.com/api/?name=' + (user.displayName || "User") + '&background=4a6fa5&color=fff';
       
       loginBtn.style.display = "none";
-      registerBtn.style.display = "none";
       logoutBtn.style.display = "block";
       userProfile.style.display = "block";
       tweetBox.style.display = "block";
@@ -684,7 +734,6 @@
     } else {
       userInfo.innerHTML = "";
       loginBtn.style.display = "block";
-      registerBtn.style.display = "block";
       logoutBtn.style.display = "none";
       userProfile.style.display = "none";
       tweetBox.style.display = "none";
@@ -708,10 +757,7 @@
       userAvatar: auth.currentUser.photoURL,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       likes: 0,
-      likedBy: [],
-      saves: 0,
-      savedBy: [],
-      comments: []
+      likedBy: []
     })
     .then(() => {
       tweetInput.value = "";
@@ -735,12 +781,11 @@
           const div = document.createElement("div");
           div.className = "tweet";
           div.innerHTML = `
+            ${data.userId === auth.currentUser?.uid ? `
             <div class="edit-buttons">
-              ${data.userId === auth.currentUser?.uid ? `
-                <button class="btn-warning btn-small"><i class="fas fa-edit"></i></button>
-                <button class="btn-danger btn-small"><i class="fas fa-trash"></i></button>
-              ` : ''}
+              <button class="btn-danger btn-small" onclick="deleteTweet('${doc.id}')"><i class="fas fa-trash"></i></button>
             </div>
+            ` : ''}
             <div class="tweet-header">
               <img src="${data.userAvatar || 'https://ui-avatars.com/api/?name=' + data.user + '&background=4a6fa5&color=fff'}" 
                    class="tweet-avatar">
@@ -751,47 +796,12 @@
             </div>
             <div class="tweet-text">${data.text}</div>
             <div class="tweet-actions">
-              <div class="tweet-action ${data.likedBy?.includes(auth.currentUser?.uid) ? 'liked' : ''}" data-id="${doc.id}">
+              <div class="tweet-action ${data.likedBy?.includes(auth.currentUser?.uid) ? 'liked' : ''}" onclick="likeTweet('${doc.id}')">
                 <i class="fas fa-heart"></i> <span>${data.likes || 0}</span>
-              </div>
-              <div class="tweet-action" data-id="${doc.id}">
-                <i class="fas fa-comment"></i> <span>${data.comments?.length || 0}</span>
-              </div>
-              <div class="tweet-action ${data.savedBy?.includes(auth.currentUser?.uid) ? 'saved' : ''}" data-id="${doc.id}">
-                <i class="fas fa-bookmark"></i> <span>ذخیره</span>
-              </div>
-              <div class="tweet-action" data-id="${doc.id}">
-                <i class="fas fa-share-alt"></i> <span>اشتراک‌گذاری</span>
-              </div>
-            </div>
-            <div class="comments-section">
-              <h4>نظرات:</h4>
-              <div class="comments-list">
-                ${data.comments ? data.comments.map(comment => `
-                  <div class="comment">
-                    <strong>${comment.user}:</strong> ${comment.text}
-                  </div>
-                `).join('') : '<p>هنوز نظری وجود ندارد</p>'}
-              </div>
-              <div class="comment-form">
-                <input type="text" class="comment-input" placeholder="نظر خود را بنویسید...">
-                <button class="btn-primary">ارسال</button>
               </div>
             </div>
           `;
           tweetsDiv.appendChild(div);
-        });
-        
-        // Add event listeners for like actions
-        document.querySelectorAll('.tweet-action').forEach(action => {
-          action.addEventListener('click', (e) => {
-            const tweetId = action.getAttribute('data-id');
-            if (action.querySelector('.fa-heart')) {
-              likeTweet(tweetId);
-            } else if (action.querySelector('.fa-bookmark')) {
-              saveTweet(tweetId);
-            }
-          });
         });
         
         // If no tweets
@@ -816,16 +826,49 @@
       });
   }
 
-  // Like a tweet
-  function likeTweet(tweetId) {
-    // This would be implemented with Firebase update
-    alert(`لایک کردن توییت ${tweetId} (پیاده‌سازی کامل نیاز به تنظیم قوانین امنیتی Firebase دارد)`);
+  // Delete tweet
+  function deleteTweet(tweetId) {
+    if (confirm("آیا از حذف این توییت مطمئن هستید؟")) {
+      db.collection("tweets").doc(tweetId).delete()
+        .catch(err => alert("خطا در حذف توییت: " + err.message));
+    }
   }
 
-  // Save a tweet
-  function saveTweet(tweetId) {
-    // This would be implemented with Firebase update
-    alert(`ذخیره کردن توییت ${tweetId} (پیاده‌سازی کامل نیاز به تنظیم قوانین امنیتی Firebase دارد)`);
+  // Like a tweet
+  function likeTweet(tweetId) {
+    if (!auth.currentUser) {
+      alert("برای لایک کردن باید وارد حساب کاربری خود شوید");
+      return;
+    }
+    
+    const tweetRef = db.collection("tweets").doc(tweetId);
+    
+    db.runTransaction(transaction => {
+      return transaction.get(tweetRef).then(doc => {
+        if (!doc.exists) {
+          throw new Error("توییت وجود ندارد");
+        }
+        
+        const data = doc.data();
+        const likedBy = data.likedBy || [];
+        const userId = auth.currentUser.uid;
+        
+        if (likedBy.includes(userId)) {
+          // Unlike
+          transaction.update(tweetRef, {
+            likes: (data.likes || 0) - 1,
+            likedBy: likedBy.filter(id => id !== userId)
+          });
+        } else {
+          // Like
+          transaction.update(tweetRef, {
+            likes: (data.likes || 0) + 1,
+            likedBy: [...likedBy, userId]
+          });
+        }
+      });
+    })
+    .catch(err => alert("خطا در لایک کردن: " + err.message));
   }
 
   // Format time
