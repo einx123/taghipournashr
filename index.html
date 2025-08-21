@@ -1,168 +1,246 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>تقی پور نشر</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>تقی پور نشر — نسخه بهبود‌یافته</title>
 <style>
-  :root{
-    --bg:#f5f7fb; --card:#fff; --text:#111827; --muted:#6b7280; --primary:#3b82f6; --accent:#ff7e30;
-    --success:#16a34a; --danger:#ef4444;
-    --radius:12px; --shadow:0 8px 24px rgba(2,6,23,.08);
-  }
-  [data-theme="dark"]{
-    --bg:#0b1320; --card:#0f1724; --text:#e6eef8; --muted:#9aa6bd;
-  }
-  *{box-sizing:border-box}
-  body{margin:0;font-family:Vazirmatn,system-ui,-apple-system,'Segoe UI',Roboto,"Helvetica Neue",Arial;color:var(--text);background:var(--bg);transition:background .25s,color .25s}
-  .container{max-width:1100px;margin:20px auto;padding:16px}
-  header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border-radius:10px;background:linear-gradient(90deg,var(--primary),#6ea8ff);color:#fff}
-  .brand{display:flex;gap:12px;align-items:center}
-  .logo{width:48px;height:48px;border-radius:50%;background:#fff;color:var(--primary);display:grid;place-items:center;font-weight:700}
-  nav a{color:inherit;margin-inline:6px;padding:8px 12px;border-radius:9px;background:rgba(255,255,255,.08);text-decoration:none}
-  nav a.active{background:var(--accent);color:#111}
-  .toolbar{display:flex;gap:8px;align-items:center}
-  .btn{background:var(--primary);color:#fff;padding:8px 12px;border-radius:10px;border:0;cursor:pointer}
-  .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.2)}
-  main{display:grid;grid-template-columns:300px 1fr;gap:16px;margin-top:18px}
-  aside{background:var(--card);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow)}
-  section{background:var(--card);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow)}
-  .user-card{text-align:center}
-  .avatar{width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid #e6eef8}
-  .muted{color:var(--muted);font-size:13px}
-  .composer textarea{width:100%;min-height:90px;padding:10px;border-radius:12px;border:1px solid rgba(0,0,0,.08);resize:vertical}
-  .tweet{border-radius:12px;padding:12px;margin:10px 0;border:1px solid rgba(0,0,0,.04);background:linear-gradient(180deg, rgba(255,255,255,.02), transparent)}
-  .tweet .meta{font-size:12px;color:var(--muted)}
-  .actions{display:flex;gap:8px;align-items:center;margin-top:8px}
-  .like-btn{background:transparent;border:1px solid rgba(0,0,0,.06);padding:6px 8px;border-radius:8px;cursor:pointer}
-  .like-btn.liked{background:var(--danger);color:#fff;border-color:var(--danger)}
-  .controls{display:flex;gap:8px;flex-wrap:wrap}
-  .filters input[type="text"]{padding:8px;border-radius:8px;border:1px solid rgba(0,0,0,.06)}
-  .footer{margin-top:18px;text-align:center;color:var(--muted);}
-  @media(max-width:900px){main{grid-template-columns:1fr}aside{position:static}}
+:root {
+  --bg: #f5f7fb;
+  --card: #fff;
+  --text: #111827;
+  --muted: #6b7280;
+  --primary: #3b82f6;
+  --accent: #ff7e30;
+  --success: #16a34a;
+  --danger: #ef4444;
+  --radius: 12px;
+  --shadow: 0 6px 18px rgba(2,6,23,.08);
+}
+
+[data-theme="dark"] {
+  --bg: #0b1320;
+  --card: #0f1724;
+  --text: #e6eef8;
+  --muted: #9aa6bd;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0; font-family: Vazirmatn, system-ui, -apple-system, 'Segoe UI', Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--text); background: var(--bg); transition: background .25s, color .25s; line-height: 1.5;
+}
+.container { max-width: 1100px; margin: 0 auto; padding: 16px; }
+
+/* HEADER */
+header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; border-radius: var(--radius); background: linear-gradient(90deg, var(--primary), #6ea8ff); color: #fff; }
+.brand { display: flex; gap: 12px; align-items: center; }
+.logo { width: 44px; height: 44px; border-radius: 50%; background: #fff; color: var(--primary); display: grid; place-items: center; font-weight: 700; flex-shrink: 0; }
+nav { display: flex; flex-wrap: wrap; gap: 6px; }
+nav a { color: inherit; padding: 8px 12px; border-radius: 9px; background: rgba(255, 255, 255, .08); text-decoration: none; font-size: 14px; white-space: nowrap; }
+nav a.active { background: var(--accent); color: #111; }
+.toolbar { display: flex; gap: 8px; align-items: center; }
+
+/* BUTTONS */
+.btn { background: var(--primary); color: #fff; padding: 8px 14px; border-radius: 10px; border: 0; cursor: pointer; font-size: 14px; transition: background .2s; }
+.btn:hover { background: #2563eb; }
+.btn.ghost { background: transparent; border: 1px solid rgba(255,255,255,.2); color: #fff; }
+.btn.secondary { background: #6b7280; }
+.btn.wide { width: 100%; }
+
+/* LAYOUT */
+main { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 18px; }
+aside, section { background: var(--card); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow); }
+
+/* USER CARD */
+.user-card { text-align: center; }
+.avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #e6eef8; }
+.muted { color: var(--muted); font-size: 13px; }
+
+/* COMPOSER */
+.composer textarea { width: 100%; min-height: 90px; padding: 10px; border-radius: 12px; border: 1px solid rgba(0,0,0,.08); resize: vertical; font-family: inherit; }
+.composer .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.preview { display: none; margin-top: 8px; }
+.preview img, .preview video { max-width: 100%; border-radius: 10px; border: 1px solid rgba(0,0,0,.08); }
+
+/* FEED */
+.tweet { border-radius: 12px; padding: 12px; margin: 10px 0; border: 1px solid rgba(0,0,0,.04); background: linear-gradient(180deg, rgba(255,255,255,.02), transparent); }
+.tweet .meta { font-size: 12px; color: var(--muted); }
+.actions { display: flex; gap: 8px; align-items: center; margin-top: 8px; }
+.like-btn, .dislike-btn, .del-btn { background: transparent; border: 1px solid rgba(0,0,0,.06); padding: 6px 8px; border-radius: 8px; cursor: pointer; }
+.like-btn.liked { background: var(--danger); color: #fff; border-color: var(--danger); }
+.dislike-btn.disliked { background: #999; color: #fff; border-color: #999; }
+.comments { margin-top: 8px; font-size: 13px; }
+.comments .add-comment { display: flex; gap: 4px; margin-top:4px; }
+.comments input { flex:1; padding:4px 6px; border-radius:6px; border:1px solid rgba(0,0,0,.1); }
+
+/* CONTROLS */
+.controls { display: flex; gap: 8px; flex-wrap: wrap; }
+.filters input[type="text"] { padding: 8px; border-radius: 8px; border: 1px solid rgba(0,0,0,.06); }
+
+/* FOOTER */
+.footer { margin-top: 18px; text-align: center; color: var(--muted); font-size: 14px; }
+
+/* TOAST */
+.toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--primary); color: #fff; padding: 12px 20px; border-radius: 12px; opacity: 0; transition: opacity .3s; z-index: 1000; }
+
+/* PAGES */
+.page { display: none; }
+.page.active { display: block; }
+
+/* RESPONSIVE */
+@media (min-width: 901px) { main { grid-template-columns: 280px 1fr; } }
+@media (max-width: 600px) {
+  header { flex-direction: column; align-items: flex-start; }
+  nav { width: 100%; justify-content: flex-start; overflow-x: auto; scrollbar-width: none; }
+  nav::-webkit-scrollbar { display: none; }
+  .toolbar { width: 100%; justify-content: flex-start; flex-wrap: wrap; }
+  .btn { flex: 1; text-align: center; }
+}
 </style>
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
 </head>
 <body data-theme="light">
-  <header class="container">
-    <div class="brand">
-      <div class="logo">TP</div>
-      <div>
-        <div style="font-weight:700">تقی پور نشر</div>
-        <div class="muted" style="font-size:13px">پلتفرم اشتراک گذاری افکار</div>
+<header class="container">
+  <div class="brand">
+    <div class="logo">TP</div>
+    <div>
+      <div style="font-weight:700">تقی پور نشر</div>
+      <div class="muted" style="font-size:13px">پلتفرم اشتراک گذاری افکار</div>
+    </div>
+  </div>
+  <nav id="tabs">
+    <a href="#home" data-page="home" class="active">خانه</a>
+    <a href="#rules" data-page="rules">قوانین</a>
+    <a href="#settings" data-page="settings">تنظیمات</a>
+    <a href="#contact" data-page="contact">ارتباط با ما</a>
+  </nav>
+  <div class="toolbar">
+    <button id="theme-toggle" class="btn ghost">حالت شب</button>
+    <button id="login-open" class="btn">ورود / ثبت</button>
+    <button id="logout" class="btn" style="display:none;background:var(--danger)">خروج</button>
+  </div>
+</header>
+
+<div class="container">
+  <main>
+    <aside>
+      <div class="user-card">
+        <img id="avatar" class="avatar" src="https://ui-avatars.com/api/?name=Guest&background=6e9cd2&color=fff" alt="avatar">
+        <h3 id="displayName">مهمان</h3>
+        <div id="userEmail" class="muted">برای ارسال پیام وارد شوید</div>
       </div>
-    </div>
 
-    <nav>
-      <a href="#" data-page="home" class="active">خانه</a>
-      <a href="#" data-page="rules">قوانین</a>
-      <a href="#" data-page="settings">تنظیمات</a>
-      <a href="#" data-page="contact">ارتباط با ما</a>
-    </nav>
+      <div style="height:12px"></div>
 
-    <div class="toolbar">
-      <button id="theme-toggle" class="btn ghost">حالت شب</button>
-      <button id="login-open" class="btn">ورود / ثبت</button>
-      <button id="logout" class="btn" style="display:none;background:var(--danger)">خروج</button>
-    </div>
-  </header>
-
-  <div class="container">
-    <main>
-      <aside>
-        <div class="user-card">
-          <img id="avatar" class="avatar" src="https://ui-avatars.com/api/?name=Guest&background=6e9cd2&color=fff" alt="avatar">
-          <h3 id="displayName">مهمان</h3>
-          <div id="userEmail" class="muted">برای ارسال پیام وارد شوید</div>
-        </div>
-
-        <div style="height:12px"></div>
-
-        <div class="card">
-          <strong>فیلترها</strong>
+      <div class="card">
+        <strong>فیلترها</strong>
+        <div style="height:8px"></div>
+        <div class="filters">
+          <input id="search" type="text" placeholder="جستجو در متن پیام...">
           <div style="height:8px"></div>
-          <div class="filters">
-            <input id="search" type="text" placeholder="جستجو در متن پیام..." />
-            <div style="height:8px"></div>
-            <label><input id="mine" type="checkbox" /> فقط پیام‌های من</label><br>
-            <label><input id="likedOnly" type="checkbox" /> فقط لایک‌شده‌ها</label>
-            <div style="height:8px"></div>
-            <select id="sort">
-              <option value="new">جدیدترین</option>
-              <option value="old">قدیمی‌ترین</option>
-              <option value="popular">محبوب‌ترین</option>
-            </select>
-            <div style="height:8px"></div>
-            <button id="applyFilters" class="btn">اعمال فیلتر</button>
-          </div>
+          <label><input id="mine" type="checkbox"> فقط پیام‌های من</label><br>
+          <label><input id="likedOnly" type="checkbox"> فقط لایک‌شده‌ها</label>
+          <div style="height:8px"></div>
+          <select id="sort">
+            <option value="new">جدیدترین</option>
+            <option value="old">قدیمی‌ترین</option>
+            <option value="popular">محبوب‌ترین</option>
+          </select>
+          <div style="height:8px"></div>
+          <button id="applyFilters" class="btn">اعمال فیلتر</button>
         </div>
+      </div>
 
-        <div style="height:12px"></div>
+      <div style="height:12px"></div>
 
-        <div class="card">
-          <strong>ارتباط با ما</strong>
-          <div style="margin-top:8px">
-            <a href="https://www.instagram.com/parhammmm322/" target="_blank">اینستاگرام: @parhammmm322</a><br>
-            <a href="https://t.me/mmdparham91" target="_blank">تلگرام: mmdparham91</a>
-          </div>
+      <div class="card">
+        <strong>ارتباط با ما</strong>
+        <div style="margin-top:8px">
+          <a href="https://www.instagram.com/parhammmm322/" target="_blank">اینستاگرام: @parhammmm322</a><br>
+          <a href="https://t.me/mmdparham91" target="_blank">تلگرام: mmdparham91</a>
         </div>
-      </aside>
+      </div>
+    </aside>
 
-      <section>
+    <section>
+      <!-- PAGES WRAPPER -->
+      <div id="page-home" class="page active">
         <div id="composer" class="composer" style="display:none">
           <div class="card">
             <h3>نوشتن پیام جدید</h3>
             <textarea id="text" placeholder="چی در ذهنت هست؟"></textarea>
+            <div class="row" style="margin-top:8px">
+              <input id="media" type="file" accept="image/*,video/*">
+              <button id="clearMedia" class="btn secondary">حذف فایل</button>
+              <span class="muted" id="uploadHint">(اختیاری: عکس/ویدیو)</span>
+              <div class="muted" style="margin-inline-start:auto">کل پیام‌ها: <span id="count">0</span></div>
+            </div>
+            <div class="preview" id="preview"></div>
             <div style="height:8px"></div>
             <div class="controls">
               <button id="post" class="btn">ارسال</button>
-              <div class="muted" style="margin-inline-start:auto">کل پیام‌ها: <span id="count">0</span></div>
             </div>
           </div>
         </div>
 
         <div id="feeds"></div>
-
-        <div id="empty" style="display:none;text-align:center;padding:18px;color:var(--muted)">
-          هیچ پیامی یافت نشد
-        </div>
-
-      </section>
-    </main>
-
-    <div class="footer">© <span id="year"></span> تقی پور نشر - تمام حقوق محفوظ است</div>
-  </div>
-
-  <!-- login modal simple -->
-  <div id="loginModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999">
-    <div style="max-width:420px;margin:8% auto;background:var(--card);padding:16px;border-radius:12px;">
-      <h3>ورود / ثبت نام</h3>
-      <input id="in-email" type="email" placeholder="ایمیل" /><br>
-      <input id="in-pass" type="password" placeholder="رمز عبور" /><br>
-      <div style="display:flex;gap:8px;margin-top:8px">
-        <button id="emailLogin" class="btn">ورود</button>
-        <button id="emailSignup" class="btn ghost">ثبت‌نام</button>
-        <button id="googleLogin" class="btn">ورود با گوگل</button>
-        <button id="closeLogin" class="btn ghost">بستن</button>
+        <div id="empty" style="display:none;text-align:center;padding:18px;color:var(--muted)">هیچ پیامی یافت نشد</div>
       </div>
-      <div id="loginError" style="color:var(--danger);margin-top:8px"></div>
+
+      <div id="page-rules" class="page">
+        <h3>قوانین</h3>
+        <ul>
+          <li>رعایت احترام به تمام کاربران.</li>
+          <li>محتوای غیرقانونی یا ناقض کپی‌رایت ممنوع.</li>
+          <li>هر کاربر مسئول محتوای منتشرشده‌ی خود است.</li>
+          <li>تصاویر و ویدیوهای نامناسب حذف خواهند شد.</li>
+        </ul>
+      </div>
+
+      <div id="page-settings" class="page">
+        <h3>تنظیمات</h3>
+        <label><input type="checkbox" id="persistTheme"> ذخیره حالت شب/روز</label>
+      </div>
+
+      <div id="page-contact" class="page">
+        <h3>ارتباط با ما</h3>
+        <p>برای پیشنهادات و گزارش خطاها از طریق اینستاگرام یا تلگرام در باکس کنار پیام دهید.</p>
+      </div>
+    </section>
+  </main>
+
+  <div class="footer">© <span id="year"></span> تقی پور نشر - تمام حقوق محفوظ است</div>
+</div>
+
+<!-- Login Modal -->
+<div id="loginModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999">
+  <div style="max-width:420px;margin:8% auto;background:var(--card);padding:16px;border-radius:12px;">
+    <h3>ورود / ثبت نام</h3>
+    <input id="in-email" type="email" placeholder="ایمیل" style="width:100%;margin:6px 0;padding:10px;border-radius:10px;border:1px solid rgba(0,0,0,.1)"><br>
+    <input id="in-pass" type="password" placeholder="رمز عبور" style="width:100%;margin:6px 0;padding:10px;border-radius:10px;border:1px solid rgba(0,0,0,.1)"><br>
+    <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+      <button id="emailLogin" class="btn">ورود / ثبت نام</button>
+      <button id="googleLogin" class="btn" style="background:#ea4335">ورود با گوگل</button>
+      <button id="closeLogin" class="btn ghost">انصراف</button>
     </div>
   </div>
+</div>
 
-  <!-- toast -->
-  <div id="toast" style="position:fixed;left:20px;bottom:20px;background:var(--success);color:#fff;padding:10px 12px;border-radius:8px;display:none;z-index:1000"></div>
-
-  <!-- Firebase compat SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<div id="toast" class="toast"></div>
 
 <script>
-/* ================= CONFIG ================= */
+// ================= Firebase Init =================
 const firebaseConfig = {
   apiKey: "AIzaSyDbIq00yvB2xJTtqmoUo-xFj10hYEYl9Ac",
   authDomain: "parsnashr-eb1f3.firebaseapp.com",
   projectId: "parsnashr-eb1f3",
-  storageBucket: "parsnashr-eb1f3.firebasestorage.app",
+  storageBucket: "parsnashr-eb1f3.appspot.com",
   messagingSenderId: "875762126889",
   appId: "1:875762126889:web:1f32d90eca2c221ca84c38",
   measurementId: "G-33SLCFGP3N"
@@ -170,307 +248,257 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
+const storage = firebase.storage();
 
-/* ================ Helpers ================ */
-const $ = sel => document.querySelector(sel);
-const $$ = sel => document.querySelectorAll(sel);
-const toast = (msg, ok=true) => {
-  const t = $('#toast');
-  t.textContent = msg;
-  t.style.background = ok ? 'var(--success)' : 'var(--danger)';
-  t.style.display = 'block';
-  setTimeout(()=> t.style.display='none', 2200);
-};
-$('#year').textContent = new Date().getFullYear();
+// ================ Helpers ================
+const $ = q => document.querySelector(q);
+const $$ = q => document.querySelectorAll(q);
+const byId = id => document.getElementById(id);
 
-/* ================ Theme ================ */
-function setTheme(theme){
-  document.body.setAttribute('data-theme', theme);
-  localStorage.setItem('tp_theme', theme);
-  $('#theme-toggle').textContent = theme==='dark' ? 'حالت روشن' : 'حالت شب';
+function toast(msg, success=true){
+  const t = byId('toast');
+  t.textContent = msg; t.style.background = success ? 'var(--success)' : 'var(--danger)';
+  t.style.opacity = 1; setTimeout(()=>t.style.opacity=0,2500);
 }
-const initialTheme = localStorage.getItem('tp_theme') || 'light';
-setTheme(initialTheme);
-$('#theme-toggle').addEventListener('click', ()=>{
-  const cur = document.body.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-  setTheme(cur === 'dark' ? 'light' : 'dark');
-  // store in settings if logged in
-  if(auth.currentUser){
-    db.collection('settings').doc(auth.currentUser.uid).set({ darkMode: document.body.getAttribute('data-theme') === 'dark' }, { merge:true });
-  }
-});
 
-/* ================ Navigation ================ */
-$$('nav a').forEach(a=>{
-  a.addEventListener('click', e=>{
-    e.preventDefault();
-    $$('nav a').forEach(x=>x.classList.remove('active'));
-    a.classList.add('active');
-    const page = a.dataset.page;
-    if(page==='home'){ /* show default */ }
-    if(page==='settings') document.querySelector('#settings-panel')?.scrollIntoView();
-    if(page==='contact') document.querySelector('#feeds')?.scrollIntoView();
+// ================ Theme Toggle + Persist ================
+(function initTheme(){
+  const saved = localStorage.getItem('theme');
+  if(saved) { document.body.dataset.theme = saved; byId('theme-toggle').textContent = saved==='light'?'حالت شب':'حالت روز'; byId('persistTheme').checked = true; }
+})();
+byId('theme-toggle').onclick = ()=>{
+  const d = document.body; const next = d.dataset.theme==='light'?'dark':'light'; d.dataset.theme=next; byId('theme-toggle').textContent = next==='light'?'حالت شب':'حالت روز';
+  if(byId('persistTheme').checked){ localStorage.setItem('theme', next); } else { localStorage.removeItem('theme'); }
+};
+byId('persistTheme').onchange = (e)=>{ if(!e.target.checked){ localStorage.removeItem('theme'); } else { localStorage.setItem('theme', document.body.dataset.theme); } };
+
+// ================ Simple Router ================
+const pages = ['home','rules','settings','contact'];
+function showPage(name){
+  pages.forEach(p=>{
+    byId('page-'+p).classList.toggle('active', p===name);
+    const link = document.querySelector(`nav a[data-page="${p}"]`);
+    if(link) link.classList.toggle('active', p===name);
   });
+  if(name==='home'){ startFeed(); } else { stopFeed(); }
+  history.replaceState(null, '', '#'+name);
+}
+$('#tabs').addEventListener('click', (e)=>{
+  if(e.target.matches('a[data-page]')){ e.preventDefault(); showPage(e.target.dataset.page); }
+});
+window.addEventListener('load', ()=>{
+  const initial = location.hash.replace('#','');
+  showPage(pages.includes(initial)?initial:'home');
 });
 
-/* ================ Auth UI ================ */
-const loginModal = $('#loginModal');
-$('#login-open').addEventListener('click', ()=> loginModal.style.display='block');
-$('#closeLogin').addEventListener('click', ()=> loginModal.style.display='none');
+// ================ Login Modal & Auth ================
+byId('login-open').onclick = ()=>byId('loginModal').style.display='block';
+byId('closeLogin').onclick = ()=>byId('loginModal').style.display='none';
 
-$('#emailLogin').addEventListener('click', async ()=>{
-  const email = $('#in-email').value.trim(); const pass = $('#in-pass').value;
-  if(!email||!pass){ $('#loginError').textContent='ایمیل و رمز را وارد کنید'; return; }
-  try{ await auth.signInWithEmailAndPassword(email, pass); loginModal.style.display='none'; toast('ورود موفق'); }
-  catch(e){ $('#loginError').textContent = e.message; }
-});
-$('#emailSignup').addEventListener('click', async ()=>{
-  const email = $('#in-email').value.trim(); const pass = $('#in-pass').value;
-  if(!email||!pass){ $('#loginError').textContent='ایمیل و رمز را وارد کنید'; return; }
-  try{ const cred = await auth.createUserWithEmailAndPassword(email, pass); await createUserDoc(cred.user); loginModal.style.display='none'; toast('ثبت‌نام موفق'); }
-  catch(e){ $('#loginError').textContent = e.message; }
-});
-$('#googleLogin').addEventListener('click', async ()=>{
+byId('emailLogin').onclick = ()=>{
+  const email = byId('in-email').value.trim();
+  const pass = byId('in-pass').value;
+  if(!email||!pass){ toast('ایمیل و رمز را وارد کنید',false); return; }
+  auth.signInWithEmailAndPassword(email,pass)
+    .then(()=>{byId('loginModal').style.display='none'; toast('ورود موفق');})
+    .catch(err=>{
+      if(err.code==='auth/user-not-found'){
+        auth.createUserWithEmailAndPassword(email,pass)
+          .then(()=>{byId('loginModal').style.display='none'; toast('ثبت نام موفق');})
+          .catch(e=>toast(e.message,false));
+      } else toast(err.message,false);
+    });
+};
+
+byId('googleLogin').onclick = async ()=>{
   try{
     const provider = new firebase.auth.GoogleAuthProvider();
-    const res = await auth.signInWithPopup(provider);
-    await createUserDoc(res.user);
-    loginModal.style.display='none';
-    toast('ورود با گوگل موفق');
-  }catch(e){ $('#loginError').textContent = e.message; }
-});
-$('#logout').addEventListener('click', ()=> auth.signOut());
+    await auth.signInWithPopup(provider);
+    byId('loginModal').style.display='none';
+    toast('ورود با گوگل موفق بود');
+  }catch(e){ toast(e.message, false); }
+};
 
-async function createUserDoc(user){
-  if(!user) return;
-  const ref = db.collection('users').doc(user.uid);
-  const snap = await ref.get();
-  if(!snap.exists){
-    await ref.set({
-      displayName: user.displayName || '',
-      email: user.email || '',
-      photoURL: user.photoURL || '',
-      role: 'user',
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-  }
-}
+byId('logout').onclick = ()=>auth.signOut();
 
-/* ================ Auth State ================ */
-let currentRole = 'user';
-auth.onAuthStateChanged(async user=>{
+// ================ Auth State Listener ================
+let feedUnsub = null;
+function startFeed(){ if(!feedUnsub) loadTweetsRealtime(); }
+function stopFeed(){ if(feedUnsub){ feedUnsub(); feedUnsub=null; } }
+
+auth.onAuthStateChanged(user=>{
   if(user){
-    $('#login-open').style.display='none';
-    $('#logout').style.display='inline-block';
-    $('#composer').style.display='block';
-    $('#displayName').textContent = user.displayName || (user.email || 'کاربر');
-    $('#userEmail').textContent = user.email || '';
-    $('#avatar').src = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.email||'User')}&background=6e9cd2&color=fff`;
-    await createUserDoc(user);
-    const udoc = await db.collection('users').doc(user.uid).get();
-    if(udoc.exists && udoc.data().role) currentRole = udoc.data().role;
-    // load settings
-    const sdoc = await db.collection('settings').doc(user.uid).get();
-    if(sdoc.exists){
-      const s = sdoc.data();
-      if(typeof s.darkMode === 'boolean') setTheme(s.darkMode ? 'dark' : 'light');
-    }
+    byId('login-open').style.display='none';
+    byId('logout').style.display='inline-block';
+    byId('composer').style.display='block';
+    byId('displayName').textContent = user.displayName || 'کاربر';
+    byId('userEmail').textContent = user.email || '';
+    byId('avatar').src=`https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName||'User')}&background=6e9cd2&color=fff`;
+    startFeed();
   } else {
-    $('#login-open').style.display='inline-block';
-    $('#logout').style.display='none';
-    $('#composer').style.display='none';
-    $('#displayName').textContent = 'مهمان';
-    $('#userEmail').textContent = 'برای ارسال پیام وارد شوید';
-    $('#avatar').src = `https://ui-avatars.com/api/?name=Guest&background=6e9cd2&color=fff`;
-    currentRole = 'user';
+    byId('login-open').style.display='inline-block';
+    byId('logout').style.display='none';
+    byId('composer').style.display='none';
+    byId('displayName').textContent='مهمان';
+    byId('userEmail').textContent='برای ارسال پیام وارد شوید';
+    byId('avatar').src='https://ui-avatars.com/api/?name=Guest&background=6e9cd2&color=fff';
+    byId('feeds').innerHTML='';
+    byId('empty').style.display='block';
+    stopFeed();
   }
 });
 
-/* ================ Tweets (real-time) ================ */
-const state = { raw: [], filtered: [], page:1, pageSize:8 };
-let tweetsUnsub = null;
+// ================ Media Handling (Preview + Upload) ================
+const fileInput = byId('media');
+const preview = byId('preview');
+const clearBtn = byId('clearMedia');
+let selectedFile = null;
 
-function startTweetsListener(){
-  if(tweetsUnsub) tweetsUnsub();
-  tweetsUnsub = db.collection('tweets').orderBy('createdAt','desc').onSnapshot(snap=>{
-    const arr = [];
-    snap.forEach(doc=> {
-      const d = doc.data();
-      arr.push({
-        id: doc.id,
-        text: d.text || '',
-        uid: d.uid || '',
-        email: d.email || '',
-        photoURL: d.photoURL || '',
-        likes: d.likes || 0,
-        likedBy: Array.isArray(d.likedBy) ? d.likedBy : [],
-        createdAt: d.createdAt || null
-      });
-    });
-    state.raw = arr;
-    applyFiltersAndRender();
-  }, err=> toast('خطا در دریافت پیام‌ها: '+err.message,false));
-}
-startTweetsListener();
+fileInput.onchange = ()=>{
+  const f = fileInput.files[0];
+  if(!f){ preview.style.display='none'; preview.innerHTML=''; selectedFile=null; return; }
+  selectedFile = f;
+  const url = URL.createObjectURL(f);
+  if(f.type.startsWith('image')){
+    preview.innerHTML = `<img src="${url}" alt="preview">`;
+  } else if(f.type.startsWith('video')){
+    preview.innerHTML = `<video src="${url}" controls></video>`;
+  } else {
+    toast('فقط تصویر یا ویدیو مجاز است', false); fileInput.value=''; selectedFile=null; return;
+  }
+  preview.style.display='block';
+};
+clearBtn.onclick = ()=>{ fileInput.value=''; selectedFile=null; preview.style.display='none'; preview.innerHTML=''; };
 
-/* ================ Filters & Render ================ */
-$('#applyFilters').addEventListener('click', applyFiltersAndRender);
-$('#search').addEventListener('input', ()=> { clearTimeout(window.__deb); window.__deb=setTimeout(applyFiltersAndRender,250); });
-
-function applyFiltersAndRender(){
-  const q = $('#search').value.trim().toLowerCase();
-  const mine = $('#mine').checked;
-  const likedOnly = $('#likedOnly').checked;
-  const sort = $('#sort').value;
-
-  let list = [...state.raw];
-  if(q) list = list.filter(t => (t.text||'').toLowerCase().includes(q));
-  if(mine && auth.currentUser) list = list.filter(t => t.uid === auth.currentUser.uid);
-  if(likedOnly && auth.currentUser) list = list.filter(t => Array.isArray(t.likedBy) && t.likedBy.includes(auth.currentUser.uid));
-
-  if(sort==='new') list.sort((a,b)=> (b.createdAt?.toMillis?.()||0) - (a.createdAt?.toMillis?.()||0));
-  else if(sort==='old') list.sort((a,b)=> (a.createdAt?.toMillis?.()||0) - (b.createdAt?.toMillis?.()||0));
-  else if(sort==='popular') list.sort((a,b)=> (b.likes||0) - (a.likes||0));
-
-  state.filtered = list;
-  state.page = 1;
-  renderPage();
+async function uploadMediaIfAny(uid){
+  if(!selectedFile) return null;
+  const ts = Date.now();
+  const ext = selectedFile.name.split('.').pop();
+  const path = `media/${uid}/${ts}.${ext}`;
+  const ref = storage.ref().child(path);
+  await ref.put(selectedFile, { contentType: selectedFile.type });
+  const url = await ref.getDownloadURL();
+  return { url, type: selectedFile.type, path };
 }
 
-function renderPage(){
-  const start = (state.page-1)*state.pageSize;
-  const pageItems = state.filtered.slice(start, start + state.pageSize);
-  $('#count').textContent = state.filtered.length;
-  const container = $('#feeds');
-  container.innerHTML = '';
-  if(pageItems.length === 0){ $('#empty').style.display='block'; return; } else $('#empty').style.display='none';
+// ================ Post Tweet ================
+byId('post').onclick = async ()=>{
+  const text = byId('text').value.trim();
+  if(!text && !selectedFile){ toast('متن یا مدیا را وارد کنید', false); return; }
+  const user = auth.currentUser; if(!user){ toast('برای ارسال باید وارد شوید', false); return; }
 
-  pageItems.forEach(item => {
-    const el = document.createElement('div');
-    el.className = 'tweet';
-    el.innerHTML = `
-      <div style="display:flex;gap:12px;align-items:flex-start">
-        <img src="${item.photoURL || 'https://ui-avatars.com/api/?name='+encodeURIComponent(item.email||'User')+'&background=6e9cd2&color=fff'}" style="width:48px;height:48px;border-radius:50%;object-fit:cover" />
-        <div style="flex:1">
-          <div style="display:flex;align-items:center;gap:8px">
-            <strong>${item.email||'کاربر'}</strong>
-            <span class="muted">${formatTime(item.createdAt)}</span>
-            ${ (item.uid=== (auth.currentUser && auth.currentUser.uid) ) ? '<span style=\"margin-inline-start:auto;color:var(--accent);font-size:12px\">(شما)</span>' : '' }
-          </div>
-          <div style="margin-top:8px">${escapeHtml(item.text)}</div>
-          <div class="actions">
-            <button class="like-btn ${item.likedBy && auth.currentUser && item.likedBy.includes(auth.currentUser.uid) ? 'liked' : ''}" data-id="${item.id}">
-              ❤ <span class="likes-count">${item.likes||0}</span>
-            </button>
-            ${(item.uid === (auth.currentUser && auth.currentUser.uid) || currentRole==='admin') ? `<button class="btn" data-edit="${item.id}">ویرایش</button><button class="btn" data-del="${item.id}" style="background:var(--danger)">حذف</button>` : ''}
-            <small class="muted" style="margin-inline-start:auto">id: ${item.id}</small>
-          </div>
-        </div>
+  try{
+    byId('post').disabled = true; byId('post').textContent = 'در حال ارسال...';
+    const media = await uploadMediaIfAny(user.uid);
+    const payload = {
+      uid:user.uid,
+      displayName:user.displayName||'کاربر',
+      email:user.email,
+      text,
+      likes:[],
+      dislikes:[],
+      comments:[],
+      media: media ? { url: media.url, type: media.type, path: media.path } : null,
+      created: firebase.firestore.FieldValue.serverTimestamp()
+    };
+    await db.collection('tweets').add(payload);
+    byId('text').value=''; clearBtn.click();
+    toast('پیام ارسال شد');
+  }catch(e){
+    toast(e.message, false);
+  }finally{
+    byId('post').disabled = false; byId('post').textContent = 'ارسال';
+  }
+};
+
+// ================ Real-time Feed + Like/Dislike/Comment ================
+function renderTweets(docs){
+  const user = auth.currentUser;
+  const html = docs.map(d=>{
+    const t = d.data(); const id = d.id; 
+    const liked = user ? (t.likes||[]).includes(user.uid) : false;
+    const disliked = user ? (t.dislikes||[]).includes(user.uid) : false;
+    const when = t.created?.toDate ? t.created.toDate() : null;
+    const dateStr = when ? when.toLocaleString() : 'هم‌اکنون';
+    const mediaHTML = t.media ? (t.media.type?.startsWith('image') ? `<div style="margin-top:8px"><img src="${t.media.url}" alt="img" style="max-width:100%;border-radius:10px"></div>` : `<div style="margin-top:8px"><video src="${t.media.url}" controls style="max-width:100%;border-radius:10px"></video></div>`) : '';
+    const canDelete = user && user.uid===t.uid;
+    const safeText = (t.text||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const commentsHTML = (t.comments||[]).map(c=>`<div>${c.user}: ${c.text}</div>`).join('');
+    return `
+    <div class="tweet" data-id="${id}">
+      <div><strong>${t.displayName||'کاربر'}</strong> <span class="muted">${t.email||''}</span></div>
+      <div>${safeText}</div>
+      ${mediaHTML}
+      <div class="meta">${dateStr}</div>
+      <div class="actions">
+        <button class="like-btn ${liked?'liked':''}" data-id="${id}">❤ ${(t.likes||[]).length}</button>
+        <button class="dislike-btn ${disliked?'disliked':''}" data-id="${id}">👎 ${(t.dislikes||[]).length}</button>
+        ${canDelete?`<button class="del-btn" data-del="${id}">حذف</button>`:''}
       </div>
-    `;
-    container.appendChild(el);
+      <div class="comments">
+        ${commentsHTML}
+        ${user ? `<div class="add-comment"><input type="text" placeholder="نظر..."><button class="btn btn-small" data-comment="${id}">ارسال</button></div>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+  byId('feeds').innerHTML = html;
+  byId('count').textContent = docs.length;
+  byId('empty').style.display = docs.length===0 ? 'block' : 'none';
+
+  // Like
+  $$('.like-btn').forEach(b=> b.onclick = async ()=>{
+    const id = b.dataset.id; const u = auth.currentUser; if(!u) return toast('برای لایک باید وارد شوید', false);
+    const ref = db.collection('tweets').doc(id);
+    const liked = b.classList.contains('liked');
+    const op = liked ? firebase.firestore.FieldValue.arrayRemove(u.uid) : firebase.firestore.FieldValue.arrayUnion(u.uid);
+    try{ await ref.update({ likes: op }); } catch(e){ toast(e.message, false); }
   });
 
-  // wire up like buttons
-  container.querySelectorAll('.like-btn').forEach(btn=>{
-    btn.onclick = async (e)=>{
-      const id = btn.dataset.id;
-      if(!auth.currentUser){ toast('برای لایک باید وارد شوید', false); return; }
-      await toggleLike(id, btn);
-    };
+  // Dislike
+  $$('.dislike-btn').forEach(b=> b.onclick = async ()=>{
+    const id = b.dataset.id; const u = auth.currentUser; if(!u) return toast('برای دیسلایک باید وارد شوید', false);
+    const ref = db.collection('tweets').doc(id);
+    const disliked = b.classList.contains('disliked');
+    const op = disliked ? firebase.firestore.FieldValue.arrayRemove(u.uid) : firebase.firestore.FieldValue.arrayUnion(u.uid);
+    try{ await ref.update({ dislikes: op }); } catch(e){ toast(e.message, false); }
   });
 
-  // edit / delete
-  container.querySelectorAll('button[data-del]').forEach(b=>{
-    b.onclick = async ()=>{
-      if(!confirm('آیا حذف شود؟')) return;
-      try{ await db.collection('tweets').doc(b.dataset.del).delete(); toast('حذف شد'); }
-      catch(e){ toast(e.message,false); }
-    };
-  });
-  container.querySelectorAll('button[data-edit]').forEach(b=>{
-    b.onclick = ()=>{
-      const id = b.dataset.edit;
-      const item = state.raw.find(x=>x.id===id);
-      if(!item) return;
-      if(!(auth.currentUser && (item.uid===auth.currentUser.uid || currentRole==='admin'))){ toast('اجازه ندارید',false); return; }
-      $('#text').value = item.text;
-      $('#post').dataset.edit = id;
-      window.scrollTo({top:0,behavior:'smooth'});
-    };
-  });
-}
-
-/* ================ Like Toggle (Transaction safe) ================ */
-async function toggleLike(tweetId, btnEl){
-  const ref = db.collection('tweets').doc(tweetId);
-  try{
-    await db.runTransaction(async tx=>{
-      const docSnap = await tx.get(ref);
-      if(!docSnap.exists) throw new Error('توییت وجود ندارد');
-      const data = docSnap.data();
-      const likedBy = Array.isArray(data.likedBy) ? data.likedBy.slice() : [];
-      const uid = auth.currentUser.uid;
-      const has = likedBy.includes(uid);
-      if(has){
-        // unlike
-        const newLiked = likedBy.filter(u=>u!==uid);
-        tx.update(ref, { likes: Math.max(0,(data.likes||0)-1), likedBy: newLiked });
-      } else {
-        // like
-        likedBy.push(uid);
-        tx.update(ref, { likes: (data.likes||0)+1, likedBy: likedBy });
-      }
-    });
-    // optimistic UI update will happen from snapshot
-  }catch(e){ toast(e.message,false); }
-}
-
-/* ================ Create / Edit Post ================ */
-$('#post').addEventListener('click', async ()=>{
-  if(!auth.currentUser){ toast('ابتدا وارد شوید',false); return; }
-  const t = $('#text').value.trim();
-  if(!t) return toast('متن پیام را وارد کنید', false);
-  const editId = $('#post').dataset.edit;
-  if(editId){
+  // Delete
+  $$('[data-del]').forEach(b=> b.onclick = async ()=>{
+    const id = b.getAttribute('data-del');
+    if(!confirm('حذف شود؟')) return;
     try{
-      await db.collection('tweets').doc(editId).update({ text: t });
-      $('#post').dataset.edit = '';
-      $('#text').value = '';
-      toast('ویرایش شد');
-    }catch(e){ toast(e.message,false); }
-    return;
-  }
-  try{
-    await db.collection('tweets').add({
-      uid: auth.currentUser.uid,
-      email: auth.currentUser.email || '',
-      photoURL: auth.currentUser.photoURL || '',
-      text: t,
-      likes: 0,
-      likedBy: [],
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    $('#text').value = '';
-    toast('ارسال شد');
-  }catch(e){ toast(e.message,false); }
-});
+      const doc = await db.collection('tweets').doc(id).get();
+      const t = doc.data();
+      if(t.media?.path){ try{ await storage.ref().child(t.media.path).delete(); }catch(err){} }
+      await doc.ref.delete();
+      toast('حذف شد');
+    }catch(e){ toast(e.message, false); }
+  });
 
-/* ================ Utilities ================ */
-function formatTime(ts){
-  if(!ts) return 'همین الان';
-  const d = ts.toDate ? ts.toDate() : new Date(ts);
-  const diff = Date.now() - d.getTime();
-  if(diff < 60_000) return 'همین الان';
-  if(diff < 3_600_000) return Math.floor(diff/60_000)+' دقیقه پیش';
-  if(diff < 86_400_000) return Math.floor(diff/3_600_000)+' ساعت پیش';
-  return d.toLocaleDateString('fa-IR');
+  // Comments
+  $$('[data-comment]').forEach(b=> b.onclick = async ()=>{
+    const id = b.dataset.comment;
+    const input = b.previousElementSibling;
+    const text = input.value.trim();
+    if(!text) return;
+    const user = auth.currentUser; if(!user) return;
+    try{
+      await db.collection('tweets').doc(id).update({
+        comments: firebase.firestore.FieldValue.arrayUnion({ user:user.displayName||'کاربر', text })
+      });
+      input.value='';
+    }catch(e){ toast(e.message, false); }
+  });
 }
-function escapeHtml(s=''){ return s.replace(/[&<>"']/g, c=> ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]) ); }
 
-/* ================ Initial filter render ================ */
-applyFiltersAndRender();
+function loadTweetsRealtime(){
+  feedUnsub = db.collection('tweets').orderBy('created','desc').onSnapshot(snap=>{
+    renderTweets(snap.docs);
+  });
+}
 
+byId('year').textContent = new Date().getFullYear();
 </script>
 </body>
 </html>
