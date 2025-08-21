@@ -439,6 +439,60 @@
             transform: translateX(26px);
         }
         
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: var(--success-color);
+            color: white;
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(100px);
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .theme-dark {
+            --primary-color: #3a5985;
+            --secondary-color: #5a7ca2;
+            --light-color: #2d3748;
+            --dark-color: #1a202c;
+            --text-color: #e2e8f0;
+            background: #1a202c;
+            color: #e2e8f0;
+        }
+        
+        .theme-dark .container {
+            background: #2d3748;
+            color: #e2e8f0;
+        }
+        
+        .theme-dark .tweet-box,
+        .theme-dark .user-card,
+        .theme-dark .settings-panel,
+        .theme-dark .tweet {
+            background: #4a5568;
+            color: #e2e8f0;
+        }
+        
+        .theme-dark .sidebar {
+            background: #2d3748;
+        }
+        
+        .theme-dark textarea,
+        .theme-dark input {
+            background: #2d3748;
+            color: #e2e8f0;
+            border-color: #4a5568;
+        }
+        
         @media (max-width: 768px) {
             .main-content {
                 grid-template-columns: 1fr;
@@ -559,21 +613,21 @@
                         <div class="setting-item">
                             <span>حساب خصوصی</span>
                             <label class="switch">
-                                <input type="checkbox">
+                                <input type="checkbox" id="private-account">
                                 <span class="slider"></span>
                             </label>
                         </div>
                         <div class="setting-item">
                             <span>اجازه دادن به تگ در توییت‌ها</span>
                             <label class="switch">
-                                <input type="checkbox" checked>
+                                <input type="checkbox" id="allow-tags" checked>
                                 <span class="slider"></span>
                             </label>
                         </div>
                         <div class="setting-item">
                             <span>نمایش فعالیت آنلاین</span>
                             <label class="switch">
-                                <input type="checkbox" checked>
+                                <input type="checkbox" id="show-online-status" checked>
                                 <span class="slider"></span>
                             </label>
                         </div>
@@ -584,21 +638,21 @@
                         <div class="setting-item">
                             <span>اعلان لایک</span>
                             <label class="switch">
-                                <input type="checkbox" checked>
+                                <input type="checkbox" id="notify-likes" checked>
                                 <span class="slider"></span>
                             </label>
                         </div>
                         <div class="setting-item">
                             <span>اعلان توییت‌های جدید</span>
                             <label class="switch">
-                                <input type="checkbox" checked>
+                                <input type="checkbox" id="notify-tweets" checked>
                                 <span class="slider"></span>
                             </label>
                         </div>
                         <div class="setting-item">
                             <span>اعلان از طریق ایمیل</span>
                             <label class="switch">
-                                <input type="checkbox">
+                                <input type="checkbox" id="notify-email">
                                 <span class="slider"></span>
                             </label>
                         </div>
@@ -609,20 +663,20 @@
                         <div class="setting-item">
                             <span>حالت شب</span>
                             <label class="switch">
-                                <input type="checkbox">
+                                <input type="checkbox" id="dark-mode">
                                 <span class="slider"></span>
                             </label>
                         </div>
                         <div class="setting-item">
                             <span>فونت درشت</span>
                             <label class="switch">
-                                <input type="checkbox">
+                                <input type="checkbox" id="large-font">
                                 <span class="slider"></span>
                             </label>
                         </div>
                     </div>
                     
-                    <button class="btn-primary"><i class="fas fa-save"></i> ذخیره تنظیمات</button>
+                    <button id="save-settings" class="btn-primary"><i class="fas fa-save"></i> ذخیره تنظیمات</button>
                 </div>
             </div>
         </main>
@@ -639,7 +693,7 @@
                 <h3>شبکه های اجتماعی</h3>
                 <div class="social-icons">
                     <a href="https://www.instagram.com/parhammmm322/" target="_blank"><i class="fab fa-instagram"></i></a>
-                    <a href="https://t.me/mmdparham91" target="_blank"><i class="fab fa-telegram"></i></a>
+                    <a href="https://t.me/mmdparham91" target="_blank"><i class="fas fa-paper-plane"></i></a>
                 </div>
             </div>
         </div>
@@ -649,6 +703,8 @@
         </div>
     </footer>
 </div>
+
+<div id="toast" class="toast">تنظیمات با موفقیت ذخیره شد</div>
 
 <script>
   // Firebase config
@@ -681,6 +737,18 @@
   const tweetsDiv = document.getElementById("tweets");
   const navLinks = document.querySelectorAll('.nav-link');
   const pages = document.querySelectorAll('.page');
+  const saveSettingsBtn = document.getElementById("save-settings");
+  const toast = document.getElementById("toast");
+
+  // Settings elements
+  const privateAccount = document.getElementById("private-account");
+  const allowTags = document.getElementById("allow-tags");
+  const showOnlineStatus = document.getElementById("show-online-status");
+  const notifyLikes = document.getElementById("notify-likes");
+  const notifyTweets = document.getElementById("notify-tweets");
+  const notifyEmail = document.getElementById("notify-email");
+  const darkMode = document.getElementById("dark-mode");
+  const largeFont = document.getElementById("large-font");
 
   // Navigation
   navLinks.forEach(link => {
@@ -730,6 +798,9 @@
       logoutBtn.style.display = "block";
       userProfile.style.display = "block";
       tweetBox.style.display = "block";
+      
+      // Load user settings
+      loadUserSettings(user.uid);
       loadTweets();
     } else {
       userInfo.innerHTML = "";
@@ -871,6 +942,82 @@
     .catch(err => alert("خطا در لایک کردن: " + err.message));
   }
 
+  // Load user settings
+  function loadUserSettings(userId) {
+    db.collection("userSettings").doc(userId).get()
+      .then(doc => {
+        if (doc.exists) {
+          const settings = doc.data();
+          privateAccount.checked = settings.privateAccount || false;
+          allowTags.checked = settings.allowTags !== undefined ? settings.allowTags : true;
+          showOnlineStatus.checked = settings.showOnlineStatus !== undefined ? settings.showOnlineStatus : true;
+          notifyLikes.checked = settings.notifyLikes !== undefined ? settings.notifyLikes : true;
+          notifyTweets.checked = settings.notifyTweets !== undefined ? settings.notifyTweets : true;
+          notifyEmail.checked = settings.notifyEmail || false;
+          darkMode.checked = settings.darkMode || false;
+          largeFont.checked = settings.largeFont || false;
+          
+          // Apply settings
+          applySettings(settings);
+        }
+      })
+      .catch(err => console.error("Error loading settings: ", err));
+  }
+
+  // Save user settings
+  saveSettingsBtn.addEventListener('click', () => {
+    if (!auth.currentUser) {
+      alert("لطفاً ابتدا وارد حساب کاربری خود شوید");
+      return;
+    }
+    
+    const settings = {
+      privateAccount: privateAccount.checked,
+      allowTags: allowTags.checked,
+      showOnlineStatus: showOnlineStatus.checked,
+      notifyLikes: notifyLikes.checked,
+      notifyTweets: notifyTweets.checked,
+      notifyEmail: notifyEmail.checked,
+      darkMode: darkMode.checked,
+      largeFont: largeFont.checked,
+      lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+    };
+    
+    db.collection("userSettings").doc(auth.currentUser.uid).set(settings)
+      .then(() => {
+        showToast("تنظیمات با موفقیت ذخیره شد");
+        applySettings(settings);
+      })
+      .catch(err => alert("خطا در ذخیره تنظیمات: " + err.message));
+  });
+
+  // Apply settings to the UI
+  function applySettings(settings) {
+    // Dark mode
+    if (settings.darkMode) {
+      document.body.classList.add("theme-dark");
+    } else {
+      document.body.classList.remove("theme-dark");
+    }
+    
+    // Large font
+    if (settings.largeFont) {
+      document.body.style.fontSize = "18px";
+    } else {
+      document.body.style.fontSize = "16px";
+    }
+  }
+
+  // Show toast notification
+  function showToast(message) {
+    toast.textContent = message;
+    toast.classList.add("show");
+    
+    setTimeout(() => {
+      toast.classList.remove("show");
+    }, 3000);
+  }
+
   // Format time
   function formatTime(date) {
     if (!date) return 'زمان نامعلوم';
@@ -884,6 +1031,17 @@
     
     return date.toLocaleDateString('fa-IR');
   }
+
+  // Initialize settings change listeners
+  darkMode.addEventListener('change', () => {
+    const tempSettings = { darkMode: darkMode.checked };
+    applySettings(tempSettings);
+  });
+
+  largeFont.addEventListener('change', () => {
+    const tempSettings = { largeFont: largeFont.checked };
+    applySettings(tempSettings);
+  });
 </script>
 </body>
 </html>
