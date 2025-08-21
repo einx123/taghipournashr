@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تقی پور نشر</title>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #6e9cd2;
+            --accent-color: #ff7e30;
+            --light-color: #f8f9fa;
+            --dark-color: #2d3e50;
+            --gray-color: #e9ecef;
+            --text-color: #333;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: Tahoma, Arial, sans-serif;
+            direction: rtl;
+            padding: 20px;
+            background: #f0f2f5;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--gray-color);
+        }
+        
+        .logo {
+            width: 60px;
+            height: 60px;
+            margin-left: 15px;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            font-size: 24px;
+        }
+        
+        input, textarea {
+            width: 100%;
+            margin: 10px 0;
+            padding: 14px;
+            border-radius: var(--border-radius);
+            border: 1px solid #ddd;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(110, 156, 210, 0.2);
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--border-radius);
+            background: var(--primary-color);
+            color: #fff;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        #login-btn {
+            background: #db4437;
+        }
+        
+        #login-btn:hover {
+            background: #c03a2e;
+        }
+        
+        #logout-btn {
+            background: var(--dark-color);
+        }
+        
+        #logout-btn:hover {
+            background: #3d5061;
+        }
+        
+        .tweet {
+            background: var(--light-color);
+            padding: 18px;
+            margin: 18px 0;
+            border-radius: var(--border-radius);
+            border-right: 4px solid var(--accent-color);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease;
+        }
+        
+        .tweet:hover {
+            transform: translateX(-5px);
+        }
+        
+        .tweet-user {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+        
+        .tweet-text {
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .user-info {
+            font-weight: bold;
+            margin: 15px 0;
+            color: var(--dark-color);
+            padding: 12px;
+            background: var(--gray-color);
+            border-radius: var(--border-radius);
+        }
+        
+        .tweets-header {
+            margin: 25px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--gray-color);
+            color: var(--primary-color);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin: 15px 0;
+        }
+        
+        @media (max-width: 650px) {
+            .container {
+                padding: 20px;
+                margin: 15px auto;
+            }
+            
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo {
+                margin: 0 0 15px 0;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <img src="file:///D:/%D8%AA%D9%82%DB%8C%20%D9%BE%D9%88%D8%B1%20%D9%86%D8%B4%D8%B1/logo/logo-svg.svg" alt="تقی پور نشر" class="logo">
+        <h2>تقی پور نشر</h2>
+    </div>
+    
+    <div id="user-info"></div>
+    
+    <div class="action-buttons">
+        <button id="login-btn">ورود با گوگل</button>
+        <button id="logout-btn" style="display:none;">خروج</button>
+    </div>
+
+    <div id="tweet-box" style="display:none;">
+        <textarea id="tweet-input" placeholder="چی فکر می‌کنید؟"></textarea>
+        <button id="post-btn">ارسال توییت</button>
+    </div>
+
+    <h3 class="tweets-header">توییت‌ها:</h3>
+    <div id="tweets"></div>
+</div>
+
+<script>
+  // Firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyDbIq00yvB2xJTtqmoUo-xFj10hYEYl9Ac",
+    authDomain: "parsnashr-eb1f3.firebaseapp.com",
+    projectId: "parsnashr-eb1f3",
+    storageBucket: "parsnashr-eb1f3.firebasestorage.app",
+    messagingSenderId: "875762126889",
+    appId: "1:875762126889:web:1f32d90eca2c221ca84c38",
+    measurementId: "G-33SLCFGP3N"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  const loginBtn = document.getElementById("login-btn");
+  const logoutBtn = document.getElementById("logout-btn");
+  const userInfo = document.getElementById("user-info");
+  const tweetBox = document.getElementById("tweet-box");
+  const postBtn = document.getElementById("post-btn");
+  const tweetInput = document.getElementById("tweet-input");
+  const tweetsDiv = document.getElementById("tweets");
+
+  // Login
+  loginBtn.onclick = () => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider)
+      .catch(err => alert("خطا در ورود: " + err.message));
+  }
+
+  // Logout
+  logoutBtn.onclick = () => auth.signOut();
+
+  // Auth state
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      userInfo.innerHTML = `<div class="user-info">سلام، ${user.displayName}!</div>`;
+      loginBtn.style.display = "none";
+      logoutBtn.style.display = "inline-block";
+      tweetBox.style.display = "block";
+      loadTweets();
+    } else {
+      userInfo.innerHTML = "";
+      loginBtn.style.display = "inline-block";
+      logoutBtn.style.display = "none";
+      tweetBox.style.display = "none";
+      tweetsDiv.innerHTML = "";
+    }
+  });
+
+  // Post tweet
+  postBtn.onclick = () => {
+    const text = tweetInput.value.trim();
+    if (!text) return alert("لطفاً متنی برای ارسال وارد کنید");
+    
+    // دکمه را غیرفعال می‌کنیم تا از ارسال چندباره جلوگیری شود
+    postBtn.disabled = true;
+    postBtn.textContent = "در حال ارسال...";
+    
+    db.collection("tweets").add({
+      text,
+      user: auth.currentUser.displayName,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    })
+    .then(() => {
+      tweetInput.value = "";
+      postBtn.disabled = false;
+      postBtn.textContent = "ارسال توییت";
+    })
+    .catch(err => {
+      alert("خطا در ارسال توییت: " + err.message);
+      postBtn.disabled = false;
+      postBtn.textContent = "ارسال توییت";
+    });
+  }
+
+  // Load tweets
+  function loadTweets() {
+    db.collection("tweets").orderBy("timestamp","desc")
+      .onSnapshot(snapshot => {
+        tweetsDiv.innerHTML = "";
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          const div = document.createElement("div");
+          div.className = "tweet";
+          div.innerHTML = `
+            <div class="tweet-user">${data.user}</div>
+            <div class="tweet-text">${data.text}</div>
+          `;
+          tweetsDiv.appendChild(div);
+        });
+        
+        // اگر توییتی وجود ندارد پیام نشان داده شود
+        if (snapshot.empty) {
+          tweetsDiv.innerHTML = `<div style="text-align: center; padding: 20px; color: #666;">هنوز توییتی وجود ندارد. اولین نفر باشید!</div>`;
+        }
+      }, err => {
+        console.error("Error loading tweets: ", err);
+        tweetsDiv.innerHTML = `<div style="text-align: center; padding: 20px; color: #d32f2f;">خطا در بارگذاری توییت‌ها</div>`;
+      });
+  }
+</script>
+</body>
+</html>
