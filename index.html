@@ -110,20 +110,21 @@ aside, section { background: var(--card); border-radius: var(--radius); padding:
   <div class="brand">
     <div class="logo">TP</div>
     <div>
-      <div style="font-weight:700">تقی پور نشر</div>
-      <div class="muted" style="font-size:13px">پلتفرم اشتراک گذاری افکار</div>
+      <div style="font-weight:700" data-i18n="appName">تقی پور نشر</div>
+      <div class="muted" style="font-size:13px" data-i18n="appSubtitle">پلتفرم اشتراک گذاری افکار</div>
     </div>
   </div>
   <nav id="tabs">
-    <a href="#home" data-page="home" class="active">خانه</a>
-    <a href="#rules" data-page="rules">قوانین</a>
-    <a href="#settings" data-page="settings">تنظیمات</a>
-    <a href="#contact" data-page="contact">ارتباط با ما</a>
+    <a href="#home" data-page="home" class="active" data-i18n="home">خانه</a>
+    <a href="#rules" data-page="rules" data-i18n="rules">قوانین</a>
+    <a href="#settings" data-page="settings" data-i18n="settings">تنظیمات</a>
+    <a href="#contact" data-page="contact" data-i18n="contact">ارتباط با ما</a>
   </nav>
   <div class="toolbar">
-    <button id="theme-toggle" class="btn ghost">حالت شب</button>
-    <button id="login-open" class="btn">ورود / ثبت</button>
-    <button id="logout" class="btn" style="display:none;background:var(--danger)">خروج</button>
+    <button id="language-toggle" class="btn ghost" data-i18n="language">English</button>
+    <button id="theme-toggle" class="btn ghost" data-i18n="darkMode">حالت شب</button>
+    <button id="login-open" class="btn" data-i18n="loginSignup">ورود / ثبت</button>
+    <button id="logout" class="btn" style="display:none;background:var(--danger)" data-i18n="logout">خروج</button>
   </div>
 </header>
 
@@ -132,38 +133,38 @@ aside, section { background: var(--card); border-radius: var(--radius); padding:
     <aside>
       <div class="user-card">
         <img id="avatar" class="avatar" src="https://ui-avatars.com/api/?name=Guest&background=6e9cd2&color=fff" alt="avatar">
-        <h3 id="displayName">مهمان</h3>
-        <div id="userEmail" class="muted">برای ارسال پیام وارد شوید</div>
+        <h3 id="displayName" data-i18n="guest">مهمان</h3>
+        <div id="userEmail" class="muted" data-i18n="loginToPost">برای ارسال پیام وارد شوید</div>
       </div>
 
       <div style="height:12px"></div>
 
       <div class="card">
-        <strong>فیلترها</strong>
+        <strong data-i18n="filters">فیلترها</strong>
         <div style="height:8px"></div>
         <div class="filters">
-          <input id="search" type="text" placeholder="جستجو در متن پیام...">
+          <input id="search" type="text" placeholder="جستجو در متن پیام..." data-i18n-placeholder="searchPlaceholder">
           <div style="height:8px"></div>
-          <label><input id="mine" type="checkbox"> فقط پیام‌های من</label><br>
-          <label><input id="likedOnly" type="checkbox"> فقط لایک‌شده‌ها</label>
+          <label><input id="mine" type="checkbox" data-i18n="onlyMyPosts"> فقط پیام‌های من</label><br>
+          <label><input id="likedOnly" type="checkbox" data-i18n="onlyLiked"> فقط لایک‌شده‌ها</label>
           <div style="height:8px"></div>
           <select id="sort">
-            <option value="new">جدیدترین</option>
-            <option value="old">قدیمی‌ترین</option>
-            <option value="popular">محبوب‌ترین</option>
+            <option value="new" data-i18n="newest">جدیدترین</option>
+            <option value="old" data-i18n="oldest">قدیمی‌ترین</option>
+            <option value="popular" data-i18n="mostPopular">محبوب‌ترین</option>
           </select>
           <div style="height:8px"></div>
-          <button id="applyFilters" class="btn">اعمال فیلتر</button>
+          <button id="applyFilters" class="btn" data-i18n="applyFilters">اعمال فیلتر</button>
         </div>
       </div>
 
       <div style="height:12px"></div>
 
       <div class="card">
-        <strong>ارتباط با ما</strong>
+        <strong data-i18n="contactUs">ارتباط با ما</strong>
         <div style="margin-top:8px">
-          <a href="https://www.instagram.com/parhammmm322/" target="_blank">اینستاگرام: @parhammmm322</a><br>
-          <a href="https://t.me/mmdparham91" target="_blank">تلگرام: mmdparham91</a>
+          <a href="https://www.instagram.com/parhammmm322/" target="_blank" data-i18n="instagram">اینستاگرام: @parhammmm322</a><br>
+          <a href="https://t.me/mmdparham91" target="_blank" data-i18n="telegram">تلگرام: mmdparham91</a>
         </div>
       </div>
     </aside>
@@ -173,61 +174,63 @@ aside, section { background: var(--card); border-radius: var(--radius); padding:
       <div id="page-home" class="page active">
         <div id="composer" class="composer" style="display:none">
           <div class="card">
-            <h3>نوشتن پیام جدید</h3>
-            <textarea id="text" placeholder="چی در ذهنت هست؟"></textarea>
+            <h3 data-i18n="newPost">نوشتن پیام جدید</h3>
+            <textarea id="text" placeholder="چی در ذهنت هست؟" data-i18n-placeholder="whatsOnMind"></textarea>
             <div class="row" style="margin-top:8px">
               <input id="media" type="file" accept="image/*,video/*">
-              <button id="clearMedia" class="btn secondary">حذف فایل</button>
-              <span class="muted" id="uploadHint">(اختیاری: عکس/ویدیو)</span>
-              <div class="muted" style="margin-inline-start:auto">کل پیام‌ها: <span id="count">0</span></div>
+              <button id="clearMedia" class="btn secondary" data-i18n="clearFile">حذف فایل</button>
+              <span class="muted" id="uploadHint" data-i18n="optionalMedia">(اختیاری: عکس/ویدیو)</span>
+              <div class="muted" style="margin-inline-start:auto" data-i18n="totalPosts">کل پیام‌ها: <span id="count">0</span></div>
             </div>
             <div class="preview" id="preview"></div>
             <div style="height:8px"></div>
             <div class="controls">
-              <button id="post" class="btn">ارسال</button>
+              <button id="post" class="btn" data-i18n="send">ارسال</button>
             </div>
           </div>
         </div>
 
         <div id="feeds"></div>
-        <div id="empty" style="display:none;text-align:center;padding:18px;color:var(--muted)">هیچ پیامی یافت نشد</div>
+        <div id="empty" style="display:none;text-align:center;padding:18px;color:var(--muted)" data-i18n="noPostsFound">هیچ پیامی یافت نشد</div>
       </div>
 
       <div id="page-rules" class="page">
-        <h3>قوانین</h3>
+        <h3 data-i18n="rules">قوانین</h3>
         <ul>
-          <li>رعایت احترام به تمام کاربران.</li>
-          <li>محتوای غیرقانونی یا ناقض کپی‌رایت ممنوع.</li>
-          <li>هر کاربر مسئول محتوای منتشرشده‌ی خود است.</li>
-          <li>تصاویر و ویدیوهای نامناسب حذف خواهند شد.</li>
+          <li data-i18n="rule1">رعایت احترام به تمام کاربران.</li>
+          <li data-i18n="rule2">محتوای غیرقانونی یا ناقض کپی‌رایت ممنوع.</li>
+          <li data-i18n="rule3">هر کاربر مسئول محتوای منتشرشده‌ی خود است.</li>
+          <li data-i18n="rule4">تصاویر و ویدیوهای نامناسب حذف خواهند شد.</li>
         </ul>
       </div>
 
       <div id="page-settings" class="page">
-        <h3>تنظیمات</h3>
-        <label><input type="checkbox" id="persistTheme"> ذخیره حالت شب/روز</label>
+        <h3 data-i18n="settings">تنظیمات</h3>
+        <label><input type="checkbox" id="persistTheme" data-i18n="persistTheme"> ذخیره حالت شب/روز</label>
+        <div style="height:12px"></div>
+        <label><input type="checkbox" id="persistLanguage" data-i18n="persistLanguage"> ذخیره زبان انتخابی</label>
       </div>
 
       <div id="page-contact" class="page">
-        <h3>ارتباط با ما</h3>
-        <p>برای پیشنهادات و گزارش خطاها از طریق اینستاگرام یا تلگرام در باکس کنار پیام دهید.</p>
+        <h3 data-i18n="contactUs">ارتباط با ما</h3>
+        <p data-i18n="contactDescription">برای پیشنهادات و گزارش خطاها از طریق اینستاگرام یا تلگرام در باکس کنار پیام دهید.</p>
       </div>
     </section>
   </main>
 
-  <div class="footer">© <span id="year"></span> تقی پور نشر - تمام حقوق محفوظ است</div>
+  <div class="footer">© <span id="year"></span> <span data-i18n="appName">تقی پور نشر</span> - <span data-i18n="allRightsReserved">تمام حقوق محفوظ است</span></div>
 </div>
 
 <!-- Login Modal -->
 <div id="loginModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999">
   <div style="max-width:420px;margin:8% auto;background:var(--card);padding:16px;border-radius:12px;">
-    <h3>ورود / ثبت نام</h3>
-    <input id="in-email" type="email" placeholder="ایمیل" style="width:100%;margin:6px 0;padding:10px;border-radius:10px;border:1px solid rgba(0,0,0,.1)"><br>
-    <input id="in-pass" type="password" placeholder="رمز عبور" style="width:100%;margin:6px 0;padding:10px;border-radius:10px;border:1px solid rgba(0,0,0,.1)"><br>
+    <h3 data-i18n="loginSignup">ورود / ثبت نام</h3>
+    <input id="in-email" type="email" placeholder="ایمیل" data-i18n-placeholder="email" style="width:100%;margin:6px 0;padding:10px;border-radius:10px;border:1px solid rgba(0,0,0,.1)"><br>
+    <input id="in-pass" type="password" placeholder="رمز عبور" data-i18n-placeholder="password" style="width:100%;margin:6px 0;padding:10px;border-radius:10px;border:1px solid rgba(0,0,0,.1)"><br>
     <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
-      <button id="emailLogin" class="btn">ورود / ثبت نام</button>
-      <button id="googleLogin" class="btn" style="background:#ea4335">ورود با گوگل</button>
-      <button id="closeLogin" class="btn ghost">انصراف</button>
+      <button id="emailLogin" class="btn" data-i18n="loginSignup">ورود / ثبت نام</button>
+      <button id="googleLogin" class="btn" style="background:#ea4335" data-i18n="loginWithGoogle">ورود با گوگل</button>
+      <button id="closeLogin" class="btn ghost" data-i18n="cancel">انصراف</button>
     </div>
   </div>
 </div>
@@ -261,13 +264,186 @@ function toast(msg, success=true){
   t.style.opacity = 1; setTimeout(()=>t.style.opacity=0,2500);
 }
 
+// ================ Language Support ================
+const translations = {
+  fa: {
+    appName: "تقی پور نشر",
+    appSubtitle: "پلتفرم اشتراک گذاری افکار",
+    home: "خانه",
+    rules: "قوانین",
+    settings: "تنظیمات",
+    contact: "ارتباط با ما",
+    darkMode: "حالت شب",
+    loginSignup: "ورود / ثبت",
+    logout: "خروج",
+    guest: "مهمان",
+    loginToPost: "برای ارسال پیام وارد شوید",
+    filters: "فیلترها",
+    searchPlaceholder: "جستجو در متن پیام...",
+    onlyMyPosts: "فقط پیام‌های من",
+    onlyLiked: "فقط لایک‌شده‌ها",
+    newest: "جدیدترین",
+    oldest: "قدیمی‌ترین",
+    mostPopular: "محبوب‌ترین",
+    applyFilters: "اعمال فیلتر",
+    contactUs: "ارتباط با ما",
+    instagram: "اینستاگرام: @parhammmm322",
+    telegram: "تلگرام: mmdparham91",
+    newPost: "نوشتن پیام جدید",
+    whatsOnMind: "چی در ذهنت هست؟",
+    clearFile: "حذف فایل",
+    optionalMedia: "(اختیاری: عکس/ویدیو)",
+    totalPosts: "کل پیام‌ها:",
+    send: "ارسال",
+    noPostsFound: "هیچ پیامی یافت نشد",
+    rule1: "رعایت احترام به تمام کاربران.",
+    rule2: "محتوای غیرقانونی یا ناقض کپی‌رایت ممنوع.",
+    rule3: "هر کاربر مسئول محتوای منتشرشده‌ی خود است.",
+    rule4: "تصاویر و ویدیوهای نامناسب حذف خواهند شد.",
+    persistTheme: "ذخیره حالت شب/روز",
+    persistLanguage: "ذخیره زبان انتخابی",
+    contactDescription: "برای پیشنهادات و گزارش خطاها از طریق اینستاگرام یا تلگرام در باکس کنار پیام دهید.",
+    allRightsReserved: "تمام حقوق محفوظ است",
+    email: "ایمیل",
+    password: "رمز عبور",
+    loginWithGoogle: "ورود با گوگل",
+    cancel: "انصراف",
+    language: "English",
+    deleteConfirm: "حذف شود؟",
+    deleteSuccess: "حذف شد",
+    postSuccess: "پیام ارسال شد",
+    loginRequired: "برای ارسال باید وارد شوید",
+    enterTextOrMedia: "متن یا مدیا را وارد کنید",
+    enterEmailPass: "ایمیل و رمز را وارد کنید",
+    loginSuccess: "ورود موفق",
+    signupSuccess: "ثبت نام موفق",
+    googleLoginSuccess: "ورود با گوگل موفق بود",
+    likeRequired: "برای لایک باید وارد شوید",
+    dislikeRequired: "برای دیسلایک باید وارد شوید"
+  },
+  en: {
+    appName: "taghipour Nashr",
+    appSubtitle: "Thought Sharing Platform",
+    home: "Home",
+    rules: "Rules",
+    settings: "Settings",
+    contact: "Contact Us",
+    darkMode: "Dark Mode",
+    loginSignup: "Login / Signup",
+    logout: "Logout",
+    guest: "Guest",
+    loginToPost: "Login to post messages",
+    filters: "Filters",
+    searchPlaceholder: "Search in messages...",
+    onlyMyPosts: "Only my posts",
+    onlyLiked: "Only liked posts",
+    newest: "Newest",
+    oldest: "Oldest",
+    mostPopular: "Most Popular",
+    applyFilters: "Apply Filters",
+    contactUs: "Contact Us",
+    instagram: "Instagram: @parhammmm322",
+    telegram: "Telegram: mmdparham91",
+    newPost: "Write New Post",
+    whatsOnMind: "What's on your mind?",
+    clearFile: "Clear File",
+    optionalMedia: "(Optional: image/video)",
+    totalPosts: "Total posts:",
+    send: "Send",
+    noPostsFound: "No posts found",
+    rule1: "Respect all users.",
+    rule2: "Illegal content or copyright infringement is prohibited.",
+    rule3: "Each user is responsible for their published content.",
+    rule4: "Inappropriate images and videos will be removed.",
+    persistTheme: "Save day/night mode",
+    persistLanguage: "Save language preference",
+    contactDescription: "For suggestions and bug reports, contact us via Instagram or Telegram in the side box.",
+    allRightsReserved: "All rights reserved",
+    email: "Email",
+    password: "Password",
+    loginWithGoogle: "Login with Google",
+    cancel: "Cancel",
+    language: "فارسی",
+    deleteConfirm: "Delete?",
+    deleteSuccess: "Deleted",
+    postSuccess: "Post sent successfully",
+    loginRequired: "You need to login to post",
+    enterTextOrMedia: "Enter text or media",
+    enterEmailPass: "Enter email and password",
+    loginSuccess: "Login successful",
+    signupSuccess: "Signup successful",
+    googleLoginSuccess: "Google login successful",
+    likeRequired: "You need to login to like",
+    dislikeRequired: "You need to login to dislike"
+  }
+};
+
+let currentLanguage = 'fa';
+
+function changeLanguage(lang) {
+  currentLanguage = lang;
+  
+  // Update HTML lang and dir attributes
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
+  
+  // Update all elements with data-i18n attribute
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (translations[lang][key]) {
+      el.textContent = translations[lang][key];
+    }
+  });
+  
+  // Update all placeholder elements
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (translations[lang][key]) {
+      el.placeholder = translations[lang][key];
+    }
+  });
+  
+  // Update language toggle button text
+  byId('language-toggle').textContent = translations[lang]['language'];
+  
+  // Save language preference if enabled
+  if (byId('persistLanguage').checked) {
+    localStorage.setItem('language', lang);
+  }
+}
+
+function initLanguage() {
+  const savedLanguage = localStorage.getItem('language');
+  const persistLang = localStorage.getItem('persistLanguage') === 'true';
+  
+  byId('persistLanguage').checked = persistLang;
+  
+  if (savedLanguage && persistLang) {
+    changeLanguage(savedLanguage);
+  }
+}
+
+byId('language-toggle').onclick = () => {
+  const newLang = currentLanguage === 'fa' ? 'en' : 'fa';
+  changeLanguage(newLang);
+};
+
+byId('persistLanguage').onchange = (e) => {
+  localStorage.setItem('persistLanguage', e.target.checked);
+  if (e.target.checked) {
+    localStorage.setItem('language', currentLanguage);
+  } else {
+    localStorage.removeItem('language');
+  }
+};
+
 // ================ Theme Toggle + Persist ================
 (function initTheme(){
   const saved = localStorage.getItem('theme');
-  if(saved) { document.body.dataset.theme = saved; byId('theme-toggle').textContent = saved==='light'?'حالت شب':'حالت روز'; byId('persistTheme').checked = true; }
+  if(saved) { document.body.dataset.theme = saved; byId('theme-toggle').textContent = saved==='light'?translations[currentLanguage]['darkMode']:translations[currentLanguage]['darkMode'].replace('حالت شب', 'حالت روز'); byId('persistTheme').checked = true; }
 })();
 byId('theme-toggle').onclick = ()=>{
-  const d = document.body; const next = d.dataset.theme==='light'?'dark':'light'; d.dataset.theme=next; byId('theme-toggle').textContent = next==='light'?'حالت شب':'حالت روز';
+  const d = document.body; const next = d.dataset.theme==='light'?'dark':'light'; d.dataset.theme=next; byId('theme-toggle').textContent = next==='light'?translations[currentLanguage]['darkMode']:translations[currentLanguage]['darkMode'].replace('حالت شب', 'حالت روز');
   if(byId('persistTheme').checked){ localStorage.setItem('theme', next); } else { localStorage.removeItem('theme'); }
 };
 byId('persistTheme').onchange = (e)=>{ if(!e.target.checked){ localStorage.removeItem('theme'); } else { localStorage.setItem('theme', document.body.dataset.theme); } };
@@ -298,13 +474,13 @@ byId('closeLogin').onclick = ()=>byId('loginModal').style.display='none';
 byId('emailLogin').onclick = ()=>{
   const email = byId('in-email').value.trim();
   const pass = byId('in-pass').value;
-  if(!email||!pass){ toast('ایمیل و رمز را وارد کنید',false); return; }
+  if(!email||!pass){ toast(translations[currentLanguage]['enterEmailPass'],false); return; }
   auth.signInWithEmailAndPassword(email,pass)
-    .then(()=>{byId('loginModal').style.display='none'; toast('ورود موفق');})
+    .then(()=>{byId('loginModal').style.display='none'; toast(translations[currentLanguage]['loginSuccess']);})
     .catch(err=>{
       if(err.code==='auth/user-not-found'){
         auth.createUserWithEmailAndPassword(email,pass)
-          .then(()=>{byId('loginModal').style.display='none'; toast('ثبت نام موفق');})
+          .then(()=>{byId('loginModal').style.display='none'; toast(translations[currentLanguage]['signupSuccess']);})
           .catch(e=>toast(e.message,false));
       } else toast(err.message,false);
     });
@@ -315,7 +491,7 @@ byId('googleLogin').onclick = async ()=>{
     const provider = new firebase.auth.GoogleAuthProvider();
     await auth.signInWithPopup(provider);
     byId('loginModal').style.display='none';
-    toast('ورود با گوگل موفق بود');
+    toast(translations[currentLanguage]['googleLoginSuccess']);
   }catch(e){ toast(e.message, false); }
 };
 
@@ -331,7 +507,7 @@ auth.onAuthStateChanged(user=>{
     byId('login-open').style.display='none';
     byId('logout').style.display='inline-block';
     byId('composer').style.display='block';
-    byId('displayName').textContent = user.displayName || 'کاربر';
+    byId('displayName').textContent = user.displayName || translations[currentLanguage]['guest'];
     byId('userEmail').textContent = user.email || '';
     byId('avatar').src=`https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName||'User')}&background=6e9cd2&color=fff`;
     startFeed();
@@ -339,8 +515,8 @@ auth.onAuthStateChanged(user=>{
     byId('login-open').style.display='inline-block';
     byId('logout').style.display='none';
     byId('composer').style.display='none';
-    byId('displayName').textContent='مهمان';
-    byId('userEmail').textContent='برای ارسال پیام وارد شوید';
+    byId('displayName').textContent=translations[currentLanguage]['guest'];
+    byId('userEmail').textContent=translations[currentLanguage]['loginToPost'];
     byId('avatar').src='https://ui-avatars.com/api/?name=Guest&background=6e9cd2&color=fff';
     byId('feeds').innerHTML='';
     byId('empty').style.display='block';
@@ -384,15 +560,15 @@ async function uploadMediaIfAny(uid){
 // ================ Post Tweet ================
 byId('post').onclick = async ()=>{
   const text = byId('text').value.trim();
-  if(!text && !selectedFile){ toast('متن یا مدیا را وارد کنید', false); return; }
-  const user = auth.currentUser; if(!user){ toast('برای ارسال باید وارد شوید', false); return; }
+  if(!text && !selectedFile){ toast(translations[currentLanguage]['enterTextOrMedia'], false); return; }
+  const user = auth.currentUser; if(!user){ toast(translations[currentLanguage]['loginRequired'], false); return; }
 
   try{
-    byId('post').disabled = true; byId('post').textContent = 'در حال ارسال...';
+    byId('post').disabled = true; byId('post').textContent = translations[currentLanguage]['send'];
     const media = await uploadMediaIfAny(user.uid);
     const payload = {
       uid:user.uid,
-      displayName:user.displayName||'کاربر',
+      displayName:user.displayName||translations[currentLanguage]['guest'],
       email:user.email,
       text,
       likes:[],
@@ -403,11 +579,11 @@ byId('post').onclick = async ()=>{
     };
     await db.collection('tweets').add(payload);
     byId('text').value=''; clearBtn.click();
-    toast('پیام ارسال شد');
+    toast(translations[currentLanguage]['postSuccess']);
   }catch(e){
     toast(e.message, false);
   }finally{
-    byId('post').disabled = false; byId('post').textContent = 'ارسال';
+    byId('post').disabled = false; byId('post').textContent = translations[currentLanguage]['send'];
   }
 };
 
@@ -419,25 +595,25 @@ function renderTweets(docs){
     const liked = user ? (t.likes||[]).includes(user.uid) : false;
     const disliked = user ? (t.dislikes||[]).includes(user.uid) : false;
     const when = t.created?.toDate ? t.created.toDate() : null;
-    const dateStr = when ? when.toLocaleString() : 'هم‌اکنون';
+    const dateStr = when ? when.toLocaleString(currentLanguage === 'fa' ? 'fa-IR' : 'en-US') : translations[currentLanguage]['now'];
     const mediaHTML = t.media ? (t.media.type?.startsWith('image') ? `<div style="margin-top:8px"><img src="${t.media.url}" alt="img" style="max-width:100%;border-radius:10px"></div>` : `<div style="margin-top:8px"><video src="${t.media.url}" controls style="max-width:100%;border-radius:10px"></video></div>`) : '';
     const canDelete = user && user.uid===t.uid;
     const safeText = (t.text||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     const commentsHTML = (t.comments||[]).map(c=>`<div>${c.user}: ${c.text}</div>`).join('');
     return `
     <div class="tweet" data-id="${id}">
-      <div><strong>${t.displayName||'کاربر'}</strong> <span class="muted">${t.email||''}</span></div>
+      <div><strong>${t.displayName||translations[currentLanguage]['guest']}</strong> <span class="muted">${t.email||''}</span></div>
       <div>${safeText}</div>
       ${mediaHTML}
       <div class="meta">${dateStr}</div>
       <div class="actions">
         <button class="like-btn ${liked?'liked':''}" data-id="${id}">❤ ${(t.likes||[]).length}</button>
         <button class="dislike-btn ${disliked?'disliked':''}" data-id="${id}">👎 ${(t.dislikes||[]).length}</button>
-        ${canDelete?`<button class="del-btn" data-del="${id}">حذف</button>`:''}
+        ${canDelete?`<button class="del-btn" data-del="${id}">${translations[currentLanguage]['delete']}</button>`:''}
       </div>
       <div class="comments">
         ${commentsHTML}
-        ${user ? `<div class="add-comment"><input type="text" placeholder="نظر..."><button class="btn btn-small" data-comment="${id}">ارسال</button></div>` : ''}
+        ${user ? `<div class="add-comment"><input type="text" placeholder="${translations[currentLanguage]['commentPlaceholder']}"><button class="btn btn-small" data-comment="${id}">${translations[currentLanguage]['send']}</button></div>` : ''}
       </div>
     </div>`;
   }).join('');
@@ -447,7 +623,7 @@ function renderTweets(docs){
 
   // Like
   $$('.like-btn').forEach(b=> b.onclick = async ()=>{
-    const id = b.dataset.id; const u = auth.currentUser; if(!u) return toast('برای لایک باید وارد شوید', false);
+    const id = b.dataset.id; const u = auth.currentUser; if(!u) return toast(translations[currentLanguage]['likeRequired'], false);
     const ref = db.collection('tweets').doc(id);
     const liked = b.classList.contains('liked');
     const op = liked ? firebase.firestore.FieldValue.arrayRemove(u.uid) : firebase.firestore.FieldValue.arrayUnion(u.uid);
@@ -456,7 +632,7 @@ function renderTweets(docs){
 
   // Dislike
   $$('.dislike-btn').forEach(b=> b.onclick = async ()=>{
-    const id = b.dataset.id; const u = auth.currentUser; if(!u) return toast('برای دیسلایک باید وارد شوید', false);
+    const id = b.dataset.id; const u = auth.currentUser; if(!u) return toast(translations[currentLanguage]['dislikeRequired'], false);
     const ref = db.collection('tweets').doc(id);
     const disliked = b.classList.contains('disliked');
     const op = disliked ? firebase.firestore.FieldValue.arrayRemove(u.uid) : firebase.firestore.FieldValue.arrayUnion(u.uid);
@@ -466,13 +642,13 @@ function renderTweets(docs){
   // Delete
   $$('[data-del]').forEach(b=> b.onclick = async ()=>{
     const id = b.getAttribute('data-del');
-    if(!confirm('حذف شود؟')) return;
+    if(!confirm(translations[currentLanguage]['deleteConfirm'])) return;
     try{
       const doc = await db.collection('tweets').doc(id).get();
       const t = doc.data();
       if(t.media?.path){ try{ await storage.ref().child(t.media.path).delete(); }catch(err){} }
       await doc.ref.delete();
-      toast('حذف شد');
+      toast(translations[currentLanguage]['deleteSuccess']);
     }catch(e){ toast(e.message, false); }
   });
 
@@ -485,7 +661,7 @@ function renderTweets(docs){
     const user = auth.currentUser; if(!user) return;
     try{
       await db.collection('tweets').doc(id).update({
-        comments: firebase.firestore.FieldValue.arrayUnion({ user:user.displayName||'کاربر', text })
+        comments: firebase.firestore.FieldValue.arrayUnion({ user:user.displayName||translations[currentLanguage]['guest'], text })
       });
       input.value='';
     }catch(e){ toast(e.message, false); }
@@ -498,7 +674,10 @@ function loadTweetsRealtime(){
   });
 }
 
+// Initialize the app
 byId('year').textContent = new Date().getFullYear();
+initLanguage();
 </script>
 </body>
 </html>
+taghi poor
