@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
+  <link rel="icon" type="image/png" href="logo/logo-png.png">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>تقی پور نشر</title>
+<title>تقی پور نشر — نسخه بهبود‌یافته</title>
 <style>
 :root {
   --bg: #f5f7fb;
@@ -176,6 +177,7 @@ aside, section { background: var(--card); border-radius: var(--radius); padding:
           <div class="card">
             <h3 data-i18n="newPost">نوشتن پیام جدید</h3>
             <textarea id="text" placeholder="چی در ذهنت هست؟" data-i18n-placeholder="whatsOnMind"></textarea>
+            <div id="charCounter" class="muted" style="margin-top:6px; font-size:12px; display:none"></div>
             <div class="row" style="margin-top:8px">
               <input id="media" type="file" accept="image/*,video/*">
               <button id="clearMedia" class="btn secondary" data-i18n="clearFile">حذف فایل</button>
@@ -183,15 +185,31 @@ aside, section { background: var(--card); border-radius: var(--radius); padding:
               <div class="muted" style="margin-inline-start:auto" data-i18n="totalPosts">کل پیام‌ها: <span id="count">0</span></div>
             </div>
             <div class="preview" id="preview"></div>
+            <div id="uploadProgressWrap" style="display:none;margin-top:8px">
+              <div style="height:8px;background:#e5e7eb;border-radius:8px;overflow:hidden">
+                <div id="uploadBar" style="height:8px;width:0%;background:var(--primary)"></div>
+              </div>
+              <div class="muted" id="uploadPct" style="font-size:12px;margin-top:4px">0%</div>
+            </div>
             <div style="height:8px"></div>
             <div class="controls">
               <button id="post" class="btn" data-i18n="send">ارسال</button>
+              <button id="saveDraft" class="btn secondary" style="display:none" data-i18n="saveDraft">ذخیره پیش‌نویس</button>
+              <button id="clearDraft" class="btn secondary" style="display:none" data-i18n="clearDraft">حذف پیش‌نویس</button>
             </div>
           </div>
         </div>
 
+        <div id="feedToolbar" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0">
+          <!-- Will be filled by enhancements -->
+        </div>
+
         <div id="feeds"></div>
         <div id="empty" style="display:none;text-align:center;padding:18px;color:var(--muted)" data-i18n="noPostsFound">هیچ پیامی یافت نشد</div>
+
+        <div id="pager" style="display:none;text-align:center;margin-top:12px">
+          <button id="loadMore" class="btn" data-i18n="loadMore">بیشتر</button>
+        </div>
       </div>
 
       <div id="page-rules" class="page">
@@ -587,7 +605,7 @@ byId('post').onclick = async ()=>{
   }
 };
 
-// ================ Real-time Feed + Like/Dislike/Comment ================
+// ================ Real-time Feed + Like/Dislike/Comment =================
 function renderTweets(docs){
   const user = auth.currentUser;
   const html = docs.map(d=>{
@@ -678,7 +696,529 @@ function loadTweetsRealtime(){
 byId('year').textContent = new Date().getFullYear();
 initLanguage();
 </script>
+
+<!-- ========================= ENHANCEMENTS (ADDED FEATURES) ========================= -->
+<style>
+/* Added styles (do not alter existing) */
+.badge { display:inline-block; padding:2px 6px; border-radius:8px; background:#eef2ff; font-size:11px; margin-inline-start:6px; }
+.action-btn { background: transparent; border: 1px solid rgba(0,0,0,.06); padding:6px 8px; border-radius:8px; cursor:pointer; }
+.action-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:6px; }
+.tweet.highlight { outline: 2px dashed var(--primary); }
+.lightbox {
+  position: fixed; inset: 0; display:none; place-items:center; background: rgba(0,0,0,.7); z-index: 1001;
+}
+.lightbox img, .lightbox video { max-width: 92vw; max-height: 86vh; border-radius: 12px; }
+.kbd { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size:12px; padding:2px 6px; border-radius:6px; background:#e5e7eb; }
+.bookmark { color: #f59e0b; }
+.progress-inline { font-size:12px; color:var(--muted); margin-inline-start:8px; }
+.feed-toggle { display:flex; gap:8px; align-items:center; }
+input[type="checkbox"].switch { appearance: none; width:38px; height:22px; border-radius:20px; background:#e5e7eb; position:relative; cursor:pointer; transition:background .2s; vertical-align:middle; }
+input[type="checkbox"].switch:checked { background:#93c5fd; }
+input[type="checkbox"].switch::after { content:""; position:absolute; top:2px; inset-inline-start:2px; width:18px; height:18px; background:#fff; border-radius:50%; transition: inset-inline-start .2s; }
+input[type="checkbox"].switch:checked::after { inset-inline-start:18px; }
+.edit-area { width:100%; min-height:80px; border:1px solid rgba(0,0,0,.1); border-radius:10px; padding:8px; margin-top:8px; }
+.small-muted { font-size:12px; color:var(--muted); }
+</style>
+
+<div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Media viewer">
+  <div id="lightboxContent"></div>
+</div>
+
+<script>
+/* =========================================================
+   ADDED FEATURES — WITHOUT REMOVING OR CHANGING EXISTING CODE
+   ========================================================= */
+
+/* ---------- 0) Fill missing i18n keys & new labels ---------- */
+(function enhanceI18N(){
+  const add = (lang, obj) => Object.assign(translations[lang], obj);
+  add('fa', {
+    delete: "حذف",
+    commentPlaceholder: "افزودن نظر...",
+    now: "هم‌اکنون",
+    edit: "ویرایش",
+    save: "ذخیره",
+    cancelEdit: "انصراف",
+    share: "اشتراک",
+    copyLink: "کپی لینک",
+    copied: "کپی شد!",
+    bookmark: "نشان‌کردن",
+    bookmarked: "نشان شد",
+    removedBookmark: "نشان حذف شد",
+    report: "گزارش",
+    reported: "گزارش شد",
+    views: "بازدید",
+    uploadProgress: "در حال آپلود...",
+    saveDraft: "ذخیره پیش‌نویس",
+    clearDraft: "حذف پیش‌نویس",
+    draftSaved: "پیش‌نویس ذخیره شد",
+    draftRestored: "پیش‌نویس بازیابی شد",
+    liveMode: "حالت زنده",
+    pagedMode: "صفحه‌ای",
+    loadMore: "بیشتر",
+    openImage: "نمایش",
+    editSuccess: "ویرایش شد",
+    addedToBookmarks: "به نشان‌ها افزوده شد",
+    removedFromBookmarks: "از نشان‌ها حذف شد",
+    linkifyHelp: "برای جستجوی هشتگ کلیک کنید",
+    toggleLightbox: "برای بستن کلیک کنید"
+  });
+  add('en', {
+    delete: "Delete",
+    commentPlaceholder: "Add a comment...",
+    now: "Just now",
+    edit: "Edit",
+    save: "Save",
+    cancelEdit: "Cancel",
+    share: "Share",
+    copyLink: "Copy link",
+    copied: "Copied!",
+    bookmark: "Bookmark",
+    bookmarked: "Bookmarked",
+    removedBookmark: "Bookmark removed",
+    report: "Report",
+    reported: "Reported",
+    views: "views",
+    uploadProgress: "Uploading...",
+    saveDraft: "Save draft",
+    clearDraft: "Clear draft",
+    draftSaved: "Draft saved",
+    draftRestored: "Draft restored",
+    liveMode: "Live mode",
+    pagedMode: "Paged",
+    loadMore: "Load more",
+    openImage: "Open",
+    editSuccess: "Edited",
+    addedToBookmarks: "Added to bookmarks",
+    removedFromBookmarks: "Removed from bookmarks",
+    linkifyHelp: "Click to search hashtag",
+    toggleLightbox: "Click anywhere to close"
+  });
+})();
+
+/* ---------- 1) Character counter + draft autosave ---------- */
+(function composerExtras(){
+  const ta = byId('text');
+  const cc = byId('charCounter');
+  const saveBtn = byId('saveDraft');
+  const clearBtnDraft = byId('clearDraft');
+  if(!ta || !cc) return;
+  const LIMIT = 500;
+  cc.style.display = 'block';
+  const update = ()=>{
+    const len = ta.value.length;
+    cc.textContent = `${len}/${LIMIT}`;
+    cc.style.color = len>LIMIT ? 'var(--danger)' : 'var(--muted)';
+    byId('post').disabled = len===0 && !selectedFile || len>LIMIT;
+  };
+  ta.addEventListener('input', update);
+  update();
+
+  const draftKey = ()=> {
+    const u = auth.currentUser;
+    return 'draft_' + (u ? u.uid : 'guest');
+  };
+
+  // restore draft when available
+  function tryRestore(){
+    const d = localStorage.getItem(draftKey());
+    if(d){
+      ta.value = d;
+      update();
+      toast(translations[currentLanguage]['draftRestored']);
+    }
+  }
+  tryRestore();
+
+  // show draft buttons when logged in
+  auth.onAuthStateChanged(()=>{
+    saveBtn.style.display = 'inline-block';
+    clearBtnDraft.style.display = 'inline-block';
+    tryRestore();
+  });
+
+  saveBtn.onclick = ()=>{
+    localStorage.setItem(draftKey(), ta.value);
+    toast(translations[currentLanguage]['draftSaved']);
+  };
+  clearBtnDraft.onclick = ()=>{
+    localStorage.removeItem(draftKey());
+    toast(translations[currentLanguage]['deleteSuccess']);
+  };
+})();
+
+/* ---------- 2) Upload progress (override uploadMediaIfAny safely) ---------- */
+(function overrideUpload(){
+  const original = window.uploadMediaIfAny;
+  window.uploadMediaIfAny = async function(uid){
+    if(!selectedFile) return null;
+    const ts = Date.now();
+    const ext = selectedFile.name.split('.').pop();
+    const path = `media/${uid}/${ts}.${ext}`;
+    const ref = storage.ref().child(path);
+
+    const wrap = byId('uploadProgressWrap');
+    const bar = byId('uploadBar');
+    const pct = byId('uploadPct');
+    wrap.style.display = 'block'; bar.style.width = '0%'; pct.textContent='0%';
+
+    try{
+      await new Promise((resolve, reject)=>{
+        const task = ref.put(selectedFile, { contentType: selectedFile.type });
+        task.on('state_changed', snap=>{
+          const p = Math.round((snap.bytesTransferred/snap.totalBytes)*100);
+          bar.style.width = p + '%';
+          pct.textContent = p + '%';
+        }, reject, resolve);
+      });
+      const url = await ref.getDownloadURL();
+      return { url, type: selectedFile.type, path };
+    }catch(e){
+      toast(e.message, false);
+      throw e;
+    }finally{
+      setTimeout(()=>{ byId('uploadProgressWrap').style.display='none'; }, 500);
+    }
+  };
+})();
+
+/* ---------- 3) Feed modes: Live vs Paged (infinite "Load more") ---------- */
+let paged = {
+  enabled: false,
+  lastDoc: null,
+  unsub: null
+};
+
+(function feedToolbar(){
+  const toolbar = byId('feedToolbar');
+  if(!toolbar) return;
+  toolbar.innerHTML = `
+    <div class="feed-toggle">
+      <label style="display:flex;align-items:center;gap:6px">
+        <input id="toggleLive" type="checkbox" class="switch" checked>
+        <span class="muted">${translations[currentLanguage]['liveMode']}</span>
+      </label>
+      <button id="refreshFeed" class="btn secondary">⟳</button>
+      <span class="small-muted">Tip: <span class="kbd">Ctrl</span>+<span class="kbd">Enter</span> = ${translations[currentLanguage]['send']}</span>
+    </div>
+  `;
+  const toggle = byId('toggleLive');
+  const pagerWrap = byId('pager');
+  toggle.addEventListener('change', ()=>{
+    const live = toggle.checked;
+    if(live){
+      paged.enabled = false;
+      pagerWrap.style.display = 'none';
+      startFeed(); // uses existing
+      toast(translations[currentLanguage]['liveMode']);
+    }else{
+      stopFeed();
+      paged.enabled = true;
+      byId('feeds').innerHTML = '';
+      paged.lastDoc = null;
+      pagerWrap.style.display = 'block';
+      loadPage();
+      toast(translations[currentLanguage]['pagedMode']);
+    }
+  });
+  byId('refreshFeed').onclick = ()=>{
+    if(toggle.checked){ // live
+      stopFeed(); startFeed();
+    } else {
+      byId('feeds').innerHTML = ''; paged.lastDoc=null; loadPage();
+    }
+  };
+  byId('loadMore').onclick = ()=> loadPage();
+})();
+
+async function loadPage(limit=10){
+  let q = db.collection('tweets').orderBy('created','desc').limit(limit);
+  if(paged.lastDoc) q = q.startAfter(paged.lastDoc);
+  const snap = await q.get();
+  const docs = snap.docs;
+  paged.lastDoc = docs.length ? docs[docs.length-1] : paged.lastDoc;
+  appendTweets(docs);
+}
+
+function appendTweets(docs){
+  const container = byId('feeds');
+  const prevHTML = container.innerHTML;
+  renderTweets(docs); // renders only new docs, so we need to append, not replace
+  const newHTML = container.innerHTML;
+  container.innerHTML = prevHTML + newHTML;
+  // re-bind enhancements after new content appended
+  afterRenderEnhancements();
+}
+
+/* ---------- 4) After-render enhancements (edit/share/bookmark/report/views/lightbox/linkify) ---------- */
+function afterRenderEnhancements(){
+  // 4.1 Add extra action row to each tweet
+  $$('.tweet').forEach(t=>{
+    if(t.querySelector('.action-row')) return; // already enhanced
+    const id = t.getAttribute('data-id');
+    const isOwner = !!t.querySelector('[data-del]');
+    const row = document.createElement('div');
+    row.className = 'action-row';
+    row.innerHTML = `
+      ${isOwner ? `<button class="action-btn btn-edit">${translations[currentLanguage]['edit']}</button>` : ''}
+      <button class="action-btn btn-share">🔗 ${translations[currentLanguage]['share']}</button>
+      <button class="action-btn btn-bookmark">⭐ ${translations[currentLanguage]['bookmark']}</button>
+      <button class="action-btn btn-report">🚩 ${translations[currentLanguage]['report']}</button>
+      <span class="small-muted vcount" title="${translations[currentLanguage]['views']}">0 ${translations[currentLanguage]['views']}</span>
+    `;
+    t.querySelector('.actions').after(row);
+
+    // 4.2 Views counter (session de-dup)
+    const seenKey = 'viewed_' + id;
+    if(!sessionStorage.getItem(seenKey)){
+      sessionStorage.setItem(seenKey, '1');
+      db.collection('tweets').doc(id).update({ views: firebase.firestore.FieldValue.increment(1) }).catch(()=>{});
+    }
+    // Show current views
+    db.collection('tweets').doc(id).get().then(d=>{
+      const v = d.data()?.views || 0;
+      const vEl = t.querySelector('.vcount');
+      if(vEl) vEl.textContent = `${v} ${translations[currentLanguage]['views']}`;
+    });
+
+    // 4.3 Edit inline
+    const editBtn = t.querySelector('.btn-edit');
+    if(editBtn){
+      editBtn.onclick = ()=>{
+        const textDiv = t.children[1];
+        const original = textDiv.textContent;
+        const editBox = document.createElement('textarea');
+        editBox.className = 'edit-area';
+        editBox.value = original;
+        const save = document.createElement('button'); save.className='btn'; save.textContent = translations[currentLanguage]['save'];
+        const cancel = document.createElement('button'); cancel.className='btn secondary'; cancel.textContent = translations[currentLanguage]['cancelEdit'];
+        const wrap = document.createElement('div'); wrap.style.marginTop='8px';
+        wrap.appendChild(editBox); wrap.appendChild(document.createElement('div')).style.height='6px';
+        wrap.appendChild(save); wrap.appendChild(document.createTextNode(' ')); wrap.appendChild(cancel);
+        textDiv.after(wrap);
+        editBtn.disabled = true;
+
+        save.onclick = async ()=>{
+          const newText = editBox.value.trim();
+          try{
+            await db.collection('tweets').doc(id).update({ text: newText, editedAt: firebase.firestore.FieldValue.serverTimestamp() });
+            textDiv.textContent = newText;
+            wrap.remove();
+            editBtn.disabled = false;
+            toast(translations[currentLanguage]['editSuccess']);
+            // re-linkify after edit
+            linkifyElement(textDiv);
+          }catch(e){ toast(e.message, false); }
+        };
+        cancel.onclick = ()=>{ wrap.remove(); editBtn.disabled=false; };
+      };
+    }
+
+    // 4.4 Share/copy link
+    t.querySelector('.btn-share').onclick = async ()=>{
+      const url = location.origin + location.pathname + `?post=${id}#home`;
+      if(navigator.share){
+        try{ await navigator.share({ title: 'Post', url }); }catch(_){}
+      } else {
+        try{ await navigator.clipboard.writeText(url); toast(translations[currentLanguage]['copied']); }catch(_){}
+      }
+    };
+
+    // 4.5 Bookmark
+    t.querySelector('.btn-bookmark').onclick = async ()=>{
+      const u = auth.currentUser; if(!u) return toast(translations[currentLanguage]['loginRequired'], false);
+      const ref = db.collection('users').doc(u.uid).collection('bookmarks').doc(id);
+      const snap = await ref.get();
+      if(snap.exists){
+        await ref.delete();
+        toast(translations[currentLanguage]['removedFromBookmarks']);
+      }else{
+        await ref.set({ added: firebase.firestore.FieldValue.serverTimestamp() });
+        toast(translations[currentLanguage]['addedToBookmarks']);
+      }
+    };
+
+    // 4.6 Report
+    t.querySelector('.btn-report').onclick = async ()=>{
+      const u = auth.currentUser; if(!u) return toast(translations[currentLanguage]['loginRequired'], false);
+      await db.collection('reports').add({ postId:id, by:u.uid, created: firebase.firestore.FieldValue.serverTimestamp() });
+      toast(translations[currentLanguage]['reported']);
+    };
+
+    // 4.7 Lightbox for media
+    t.querySelectorAll('img, video').forEach(m=>{
+      m.style.cursor='zoom-in';
+      m.title = translations[currentLanguage]['openImage'];
+      m.addEventListener('click', ()=> openLightbox(m.tagName.toLowerCase(), m.src));
+    });
+
+    // 4.8 Linkify hashtags and URLs in the text block
+    linkifyElement(t.children[1]);
+  });
+
+  // highlight if deep-linking to a post
+  const params = new URLSearchParams(location.search);
+  const pid = params.get('post');
+  if(pid){
+    const target = document.querySelector(`.tweet[data-id="${pid}"]`);
+    if(target){
+      target.classList.add('highlight');
+      target.scrollIntoView({behavior:'smooth', block:'center'});
+      setTimeout(()=>target.classList.remove('highlight'), 2500);
+    }
+  }
+}
+function linkifyElement(el){
+  if(!el) return;
+  const esc = el.textContent || '';
+  const withLinks = esc
+    .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>')
+    .replace(/#([\u0600-\u06FF\w]+)/g, (m,tag)=> `<a href="#home" title="${translations[currentLanguage]['linkifyHelp']}" onclick="filterByHashtag('${tag}')">#${tag}</a>`);
+  el.innerHTML = withLinks;
+}
+window.filterByHashtag = function(tag){
+  byId('search').value = '#'+tag;
+  byId('applyFilters').click();
+};
+
+/* ---------- 5) Lightbox implementation ---------- */
+function openLightbox(kind, src){
+  const lb = byId('lightbox');
+  const box = byId('lightboxContent');
+  box.innerHTML = kind==='img' ? `<img src="${src}" alt="">` : `<video src="${src}" controls autoplay></video>`;
+  lb.style.display='grid';
+  lb.title = translations[currentLanguage]['toggleLightbox'];
+}
+byId('lightbox').addEventListener('click', ()=> byId('lightbox').style.display='none');
+
+/* ---------- 6) Keyboard shortcuts ---------- */
+(function shortcuts(){
+  document.addEventListener('keydown', (e)=>{
+    // Ctrl/Cmd + Enter to send
+    if((e.ctrlKey || e.metaKey) && e.key==='Enter'){
+      if(document.activeElement === byId('text') || byId('text').value.trim().length){
+        byId('post').click();
+      }
+    }
+    // "n" focuses composer
+    if(e.key==='n' && !['INPUT','TEXTAREA'].includes(document.activeElement.tagName)){
+      const ta = byId('text'); if(ta){ ta.focus(); }
+    }
+  });
+})();
+
+/* ---------- 7) Apply filters locally (client-side search/like/mine/popular) ---------- */
+(function filtersEnhance(){
+  byId('applyFilters').addEventListener('click', ()=>{
+    const q = byId('search').value.toLowerCase().trim();
+    const onlyMine = byId('mine').checked;
+    const likedOnly = byId('likedOnly').checked;
+    const sort = byId('sort').value;
+
+    const user = auth.currentUser;
+    const items = Array.from($$('.tweet'));
+    items.forEach(t=>{
+      const id = t.getAttribute('data-id');
+      const text = (t.children[1]?.innerText || '').toLowerCase();
+      const owner = !!t.querySelector('[data-del]');
+      const liked = t.querySelector('.like-btn')?.classList.contains('liked');
+      let ok = true;
+      if(q){
+        ok = text.includes(q) || (q.startsWith('#') && text.includes(q));
+      }
+      if(onlyMine && !owner) ok = false;
+      if(likedOnly && !liked) ok = false;
+      t.style.display = ok ? '' : 'none';
+    });
+
+    // sorting by DOM re-order
+    const container = byId('feeds');
+    const visible = items.filter(el=> el.style.display!=='none');
+    visible.sort((a,b)=>{
+      if(sort==='old'){ return 1; } // keep original older after (since rendered desc)
+      if(sort==='popular'){
+        const la = parseInt(a.querySelector('.like-btn')?.textContent.replace(/[^\d]/g,'')||'0',10);
+        const lb = parseInt(b.querySelector('.like-btn')?.textContent.replace(/[^\d]/g,'')||'0',10);
+        return lb - la;
+      }
+      return -1; // newest (already)
+    });
+    visible.forEach(el=> container.appendChild(el));
+    byId('empty').style.display = visible.length ? 'none' : 'block';
+  });
+})();
+
+/* ---------- 8) Enhance start/stop to re-run enhancements after renders ---------- */
+(function hookRenders(){
+  const originalRender = window.renderTweets;
+  window.renderTweets = function(docs){
+    originalRender(docs);
+    afterRenderEnhancements();
+  };
+})();
+
+/* ---------- 9) PWA (manifest + service worker registration) ---------- */
+(function setupPWA(){
+  // Create a simple manifest dynamically (no edits to <head>)
+  const manifest = {
+    name: "Taghipour Nashr",
+    short_name: "TP Nashr",
+    start_url: ".",
+    display: "standalone",
+    background_color: "#0f172a",
+    theme_color: "#3b82f6",
+    icons: []
+  };
+  const blob = new Blob([JSON.stringify(manifest)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('link');
+  link.rel = 'manifest'; link.href = url;
+  document.head.appendChild(link);
+
+  // Register SW
+  const swCode = `
+    const CACHE = 'tpnashr-v1';
+    const ASSETS = [
+      './',
+      location.href
+    ];
+    self.addEventListener('install', e=>{
+      e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting()));
+    });
+    self.addEventListener('activate', e=> e.waitUntil(self.clients.claim()));
+    self.addEventListener('fetch', e=>{
+      const req = e.request;
+      if(req.method!=='GET') return;
+      e.respondWith(
+        caches.match(req).then(cached=>{
+          const fetchPromise = fetch(req).then(res=>{
+            const copy = res.clone();
+            caches.open(CACHE).then(c=>c.put(req, copy));
+            return res;
+          }).catch(()=> cached);
+          return cached || fetchPromise;
+        })
+      );
+    });
+  `;
+  const swBlob = new Blob([swCode], {type:'text/javascript'});
+  const swUrl = URL.createObjectURL(swBlob);
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.register(swUrl).catch(()=>{});
+  }
+})();
+
+/* ---------- 10) Small accessibility & UX touches ---------- */
+(function a11y(){
+  // Focus outline helper
+  document.addEventListener('keydown', e=>{
+    if(e.key==='Tab'){ document.body.classList.add('keyboard'); }
+  });
+  document.addEventListener('mousedown', ()=> document.body.classList.remove('keyboard'));
+  // Set aria-live for toast
+  const t = byId('toast'); t.setAttribute('role','status'); t.setAttribute('aria-live','polite');
+})();
+
+</script>
 </body>
 </html>
-
-
