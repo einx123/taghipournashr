@@ -6,6 +6,46 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>تقی پور نشر</title>
 <style>
+  /* Loading Screen Styles */
+#loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.5s ease-out;
+}
+
+#loading-screen.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(59, 130, 246, 0.2);
+  border-radius: 50%;
+  border-top-color: var(--primary-solid);
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-size: 18px;
+  color: var(--text);
+  text-align: center;
+}
 /* ------------------------------
    Ultra-modern UI CSS (no JS)
    - glassmorphism
@@ -817,6 +857,11 @@ aside, section{
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
 </head>
 <body data-theme="light">
+  <!-- Loading Screen -->
+<div id="loading-screen">
+  <div class="loading-spinner"></div>
+  <div class="loading-text" data-i18n="loading">در حال بارگذاری...</div>
+</div>
 <!-- Particle background -->
 <div class="particles" id="particles"></div>
 
@@ -2031,7 +2076,52 @@ byId('lightbox').addEventListener('click', ()=> byId('lightbox').style.display='
   // Set aria-live for toast
   const t = byId('toast'); t.setAttribute('role','status'); t.setAttribute('aria-live','polite');
 })();
+// Loading screen functionality with Firebase wait
+let firebaseInitialized = false;
+let domContentLoaded = false;
 
-</script>
+// Check when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+  domContentLoaded = true;
+  tryHideLoadingScreen();
+});
+
+// Check when Firebase is ready (you'll need to hook into your Firebase initialization)
+// Add this after your Firebase initialization code:
+firebaseInitialized = true;
+tryHideLoadingScreen();
+
+function tryHideLoadingScreen() {
+  // Only hide when both DOM is ready and Firebase is initialized
+  if (domContentLoaded && firebaseInitialized) {
+    setTimeout(function() {
+      const loadingScreen = document.getElementById('loading-screen');
+      if (loadingScreen) {
+        loadingScreen.classList.add('hidden');
+        
+        // Remove from DOM after animation completes
+        setTimeout(() => {
+          loadingScreen.remove();
+        }, 500);
+      }
+    }, 800); // Short delay for better UX
+  }
+}
+
+// Fallback - hide after 5 seconds max
+setTimeout(function() {
+  const loadingScreen = document.getElementById('loading-screen');
+  if (loadingScreen && !loadingScreen.classList.contains('hidden')) {
+    loadingScreen.classList.add('hidden');
+    setTimeout(() => {
+      loadingScreen.remove();
+    }, 500);
+  }
+}, 5000);
+
+// Add to your translations
+translations.fa.loading = "در حال بارگذاری...";
+translations.en.loading = "Loading...";
+</SCRIPT>
 </body>
 </html>
