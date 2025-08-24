@@ -6,99 +6,809 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>تقی پور نشر</title>
 <style>
-:root {
+/* ------------------------------
+   Ultra-modern UI CSS (no JS)
+   - glassmorphism
+   - layered neumorphism
+   - motion & micro-interactions
+   - accessible focus states
+   - prefers-reduced-motion fallback
+   ------------------------------ */
+
+:root{
+  /* Core palette (extend as needed) */
   --bg: #f5f7fb;
-  --card: #fff;
+  --card: #ffffff;
   --text: #111827;
   --muted: #6b7280;
-  --primary: #3b82f6;
+  --primary: linear-gradient(90deg,#4921f9,#6ea8ff);
+  --primary-solid: #3b82f6;
   --accent: #ff7e30;
   --success: #16a34a;
   --danger: #ef4444;
-  --radius: 12px;
-  --shadow: 0 6px 18px rgba(2,6,23,.08);
+
+  /* UI tokens */
+  --radius: 14px;
+  --radius-sm: 8px;
+  --shadow-1: 0 6px 18px rgba(2,6,23,.08);
+  --shadow-2: 0 10px 30px rgba(2,6,23,.12);
+  --glass: rgba(255,255,255,.6);
+  --glass-strong: rgba(255,255,255,.8);
+  --glass-border: rgba(255,255,255,.18);
+
+  /* motion */
+  --fast: 160ms;
+  --normal: 320ms;
+  --slow: 520ms;
+  --spring-cubic: cubic-bezier(.16,.96,.52,1.04);
+
+  /* typography */
+  --base-size: 15px;
+  --scale-step: 1.125;
+  --muted-opa: .72;
 }
 
+/* dark theme variables */
 [data-theme="dark"] {
-  --bg: #0b1320;
-  --card: #0f1724;
+  --bg: linear-gradient(180deg,#071025,#071826);
+  --card: rgba(17,24,39,.65);
   --text: #e6eef8;
   --muted: #9aa6bd;
+  --glass: rgba(10,16,26,.42);
+  --glass-strong: rgba(15,23,34,.6);
+  --glass-border: rgba(255,255,255,.04);
+  --shadow-1: 0 8px 30px rgba(2,6,23,.45);
+  --shadow-2: 0 18px 60px rgba(2,6,23,.55);
 }
 
-* { box-sizing: border-box; }
-html, body { height: 100%; }
-body {
-  margin: 0; font-family: Vazirmatn, system-ui, -apple-system, 'Segoe UI', Roboto, "Helvetica Neue", Arial, sans-serif;
-  color: var(--text); background: var(--bg); transition: background .25s, color .25s; line-height: 1.5;
+/* base resets */
+* {box-sizing: border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: Vazirmatn, Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size:var(--base-size);
+  color:var(--text);
+  background:var(--bg);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.5;
+  transition: background var(--normal) var(--spring-cubic), color var(--normal) var(--spring-cubic);
+  -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
 }
-.container { max-width: 1100px; margin: 0 auto; padding: 16px; }
 
-/* HEADER */
-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; border-radius: var(--radius); background: linear-gradient(90deg, var(--primary), #6ea8ff); color: #fff; }
-.brand { display: flex; gap: 12px; align-items: center; }
-.logo { width: 44px; height: 44px; border-radius: 50%; background: #fff; color: var(--primary); display: grid; place-items: center; font-weight: 700; flex-shrink: 0; }
-nav { display: flex; flex-wrap: wrap; gap: 6px; }
-nav a { color: inherit; padding: 8px 12px; border-radius: 9px; background: rgba(255, 255, 255, .08); text-decoration: none; font-size: 14px; white-space: nowrap; }
-nav a.active { background: var(--accent); color: #111; }
-.toolbar { display: flex; gap: 8px; align-items: center; }
+/* container */
+.container{max-width:1100px;margin:0 auto;padding:18px;}
 
-/* BUTTONS */
-.btn { background: var(--primary); color: #fff; padding: 8px 14px; border-radius: 10px; border: 0; cursor: pointer; font-size: 14px; transition: background .2s; }
-.btn:hover { background: #2563eb; }
-.btn.ghost { background: transparent; border: 1px solid rgba(255,255,255,.2); color: #fff; }
-.btn.secondary { background: #6b7280; }
-.btn.wide { width: 100%; }
-
-/* LAYOUT */
-main { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 18px; }
-aside, section { background: var(--card); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow); }
-
-/* USER CARD */
-.user-card { text-align: center; }
-.avatar { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #e6eef8; }
-.muted { color: var(--muted); font-size: 13px; }
-
-/* COMPOSER */
-.composer textarea { width: 100%; min-height: 90px; padding: 10px; border-radius: 12px; border: 1px solid rgba(0,0,0,.08); resize: vertical; font-family: inherit; }
-.composer .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-.preview { display: none; margin-top: 8px; }
-.preview img, .preview video { max-width: 100%; border-radius: 10px; border: 1px solid rgba(0,0,0,.08); }
-
-/* FEED */
-.tweet { border-radius: 12px; padding: 12px; margin: 10px 0; border: 1px solid rgba(0,0,0,.04); background: linear-gradient(180deg, rgba(255,255,255,.02), transparent); }
-.tweet .meta { font-size: 12px; color: var(--muted); }
-.actions { display: flex; gap: 8px; align-items: center; margin-top: 8px; }
-.like-btn, .dislike-btn, .del-btn { background: transparent; border: 1px solid rgba(0,0,0,.06); padding: 6px 8px; border-radius: 8px; cursor: pointer; }
-.like-btn.liked { background: var(--danger); color: #fff; border-color: var(--danger); }
-.dislike-btn.disliked { background: #999; color: #fff; border-color: #999; }
-.comments { margin-top: 8px; font-size: 13px; }
-.comments .add-comment { display: flex; gap: 4px; margin-top:4px; }
-.comments input { flex:1; padding:4px 6px; border-radius:6px; border:1px solid rgba(0,0,0,.1); }
-
-/* CONTROLS */
-.controls { display: flex; gap: 8px; flex-wrap: wrap; }
-.filters input[type="text"] { padding: 8px; border-radius: 8px; border: 1px solid rgba(0,0,0,.06); }
-
-/* FOOTER */
-.footer { margin-top: 18px; text-align: center; color: var(--muted); font-size: 14px; }
-
-/* TOAST */
-.toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--primary); color: #fff; padding: 12px 20px; border-radius: 12px; opacity: 0; transition: opacity .3s; z-index: 1000; }
-
-/* PAGES */
-.page { display: none; }
-.page.active { display: block; }
-
-/* RESPONSIVE */
-@media (min-width: 901px) { main { grid-template-columns: 280px 1fr; } }
-@media (max-width: 600px) {
-  header { flex-direction: column; align-items: flex-start; }
-  nav { width: 100%; justify-content: flex-start; overflow-x: auto; scrollbar-width: none; }
-  nav::-webkit-scrollbar { display: none; }
-  .toolbar { width: 100%; justify-content: flex-start; flex-wrap: wrap; }
-  .btn { flex: 1; text-align: center; }
+/* ===== Header ===== */
+header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:14px;
+  border-radius:calc(var(--radius) + 4px);
+  background: linear-gradient(90deg, rgba(59,130,246,0.95), rgba(110,168,255,0.92));
+  color:#ffffff;
+  box-shadow: var(--shadow-2);
+  transform-origin:center;
+  will-change:transform, box-shadow;
+  transition: transform var(--normal) var(--spring-cubic), box-shadow var(--normal);
+  /* subtle floating animation */
+  animation: floatHeader 10s ease-in-out infinite;
 }
+@keyframes floatHeader{
+  0%{transform:translateY(0)}
+  50%{transform:translateY(-4px)}
+  100%{transform:translateY(0)}
+}
+
+/* brand */
+.brand{display:flex;gap:12px;align-items:center}
+.logo{
+  width:52px;height:52px;border-radius:12px;background:#fff;color:var(--primary-solid);
+  display:grid;place-items:center;font-weight:800;font-size:18px;box-shadow:0 6px 20px rgba(59,130,246,.18);
+  transition: transform var(--fast) var(--spring-cubic), box-shadow var(--fast);
+}
+.logo:hover{transform:translateY(-4px) rotate(-2deg); box-shadow:0 20px 40px rgba(59,130,246,.18)}
+
+/* fancy nav pills */
+nav{display:flex;gap:8px;flex-wrap:wrap}
+nav a{
+  color:inherit;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.06);
+  text-decoration:none;font-size:14px;white-space:nowrap;
+  transition: transform var(--fast), background var(--fast), box-shadow var(--fast);
+  box-shadow: inset 0 -2px 0 rgba(255,255,255,.02);
+  backdrop-filter: blur(6px);
+}
+nav a:hover{transform:translateY(-3px); background:rgba(255,255,255,.12)}
+nav a.active{background:var(--accent);color:#0b1220;font-weight:700;box-shadow:0 6px 24px rgba(255,126,48,.18)}
+
+/* toolbar */
+.toolbar{display:flex;gap:8px;align-items:center}
+
+/* buttons */
+.btn{
+  background:linear-gradient(180deg,var(--primary-solid),#2563eb);
+  color:#fff;padding:9px 14px;border-radius:12px;border:0;cursor:pointer;font-size:14px;
+  transition: transform var(--fast) var(--spring-cubic), box-shadow var(--fast);
+  box-shadow: 0 8px 18px rgba(59,130,246,.16);
+  display:inline-flex;align-items:center;gap:8px;
+}
+.btn:hover{transform:translateY(-4px); box-shadow:0 20px 40px rgba(59,130,246,.16)}
+.btn:active{transform:translateY(-1px) scale(.997)}
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,.12); color:inherit}
+.btn.secondary{background:#6b7280;color:#fff;box-shadow:none}
+.btn.wide{width:100%}
+
+/* focus visible - accessible */
+:focus{outline: none}
+:focus-visible{
+  box-shadow: 0 0 0 4px rgba(59,130,246,.18);
+  border-radius: 10px;
+}
+
+/* ===== Layout ===== */
+main{display:grid;grid-template-columns:1fr;gap:18px;margin-top:22px}
+aside, section{
+  background: var(--card);
+  border-radius: var(--radius);
+  padding:16px;
+  box-shadow: var(--shadow-1);
+  transition: transform var(--normal), box-shadow var(--normal), background var(--normal);
+  backdrop-filter: blur(8px) saturate(120%);
+  border: 1px solid var(--glass-border);
+}
+
+/* elevate on hover for large screens */
+@media (min-width:900px){
+  aside:hover, section:hover{transform: translateY(-6px); box-shadow: var(--shadow-2)}
+  main{grid-template-columns: 300px 1fr}
+}
+
+/* user card */
+.user-card{text-align:center}
+.avatar{
+  width:96px;height:96px;border-radius:50%;object-fit:cover;border:4px solid var(--glass-strong);
+  box-shadow: 0 12px 30px rgba(2,6,23,.08);
+  transition: transform var(--fast) var(--spring-cubic), box-shadow var(--fast);
+}
+.avatar:hover{transform:translateY(-6px) scale(1.02); box-shadow:0 30px 60px rgba(2,6,23,.12)}
+.muted{color:var(--muted);font-size:13px;opacity:var(--muted-opa)}
+
+/* composer (textarea) */
+.composer textarea{
+  width:100%;min-height:110px;padding:14px;border-radius:14px;border:1px solid rgba(2,6,23,.04);
+  resize:vertical;font-family:inherit;font-size:14px;background: linear-gradient(180deg, rgba(255,255,255,.75), rgba(255,255,255,.6));
+  box-shadow: inset 0 -6px 18px rgba(2,6,23,.02), 0 8px 30px rgba(2,6,23,.04);
+  transition: box-shadow var(--fast), transform var(--fast), border-color var(--fast);
+  outline:none;
+}
+.composer textarea:focus{
+  box-shadow: 0 18px 50px rgba(59,130,246,.08);
+  border-color: rgba(59,130,246,.28);
+  transform: translateY(-4px);
+}
+
+/* composer row micro-interactions */
+.composer .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.preview{display:block;margin-top:10px;opacity:1;transform-origin:center;transition:opacity var(--fast), transform var(--fast)}
+.preview img,.preview video{max-width:100%;border-radius:12px;border:1px solid rgba(0,0,0,.04)}
+
+/* subtle entrance for newly added previews */
+@keyframes popIn {from{opacity:0; transform:scale(.98) translateY(8px)} to{opacity:1; transform:scale(1) translateY(0)}}
+.preview{animation: popIn var(--normal) var(--spring-cubic) both}
+
+/* feed / tweet style */
+.tweet{
+  border-radius:12px;padding:14px;margin:12px 0;
+  border:1px solid rgba(0,0,0,.04);
+  background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
+  transition: transform var(--fast), box-shadow var(--fast), background var(--fast);
+  display:block;
+  position:relative;
+  overflow:visible;
+}
+.tweet::before{
+  content:"";position:absolute;left:-2px;top:6px;width:6px;height:calc(100% - 12px);
+  border-radius:6px;background:linear-gradient(180deg, rgba(59,130,246,.08), rgba(110,168,255,.06));
+  opacity:.7;transform:scaleY(.98);
+}
+.tweet:hover{transform:translateY(-6px); box-shadow: var(--shadow-2)}
+
+/* tweet meta and typography */
+.tweet .meta{font-size:12px;color:var(--muted);display:flex;gap:8px;align-items:center}
+.tweet h3{margin:0 0 8px 0;font-size:16px}
+.tweet p{margin:4px 0;color:var(--text);opacity:.92;line-height:1.6}
+
+/* actions */
+.actions{display:flex;gap:8px;align-items:center;margin-top:10px}
+.like-btn,.dislike-btn,.del-btn{
+  background:transparent;border:1px solid rgba(0,0,0,.06);padding:7px 10px;border-radius:10px;cursor:pointer;
+  transition: transform var(--fast), box-shadow var(--fast), background var(--fast), border-color var(--fast);
+  display:inline-flex;gap:8px;align-items:center;
+}
+.like-btn:hover{transform:translateY(-3px); box-shadow:0 10px 30px rgba(59,130,246,.06)}
+.like-btn.liked{background:linear-gradient(90deg,#ff7e30,#ff5a5a);color:#fff;border-color:transparent}
+.dislike-btn.disliked{background:#999;color:#fff;border-color:transparent}
+.del-btn{border-color:rgba(239,68,68,.12)}
+
+/* comments */
+.comments{margin-top:10px;font-size:13px}
+.comments .add-comment{display:flex;gap:8px;margin-top:6px}
+.comments input{flex:1;padding:8px 10px;border-radius:10px;border:1px solid rgba(0,0,0,.06)}
+
+/* filters & controls */
+.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.filters input[type="text"]{
+  padding:9px;border-radius:12px;border:1px solid rgba(0,0,0,.06);min-width:220px;
+  transition: box-shadow var(--fast), transform var(--fast);
+}
+.filters input[type="text"]:focus{box-shadow:0 18px 40px rgba(2,6,23,.04); transform:translateY(-3px)}
+
+/* footer */
+.footer{margin-top:22px;text-align:center;color:var(--muted);font-size:14px;opacity:.9}
+
+/* toast */
+.toast{
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:linear-gradient(90deg,var(--primary-solid),#6ea8ff);color:#fff;padding:12px 20px;border-radius:12px;
+  box-shadow:0 18px 60px rgba(59,130,246,.14);opacity:0;pointer-events:none;transition:opacity var(--fast), transform var(--fast);
+  z-index:1000;
+}
+.toast.show{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0)}
+
+/* page visibility control */
+.page{display:none}
+.page.active{display:block;animation: pageIn var(--slow) var(--spring-cubic) both}
+@keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* responsive refinements */
+@media (max-width:600px){
+  header{flex-direction:column;align-items:flex-start;padding:12px}
+  nav{width:100%;justify-content:flex-start;overflow-x:auto;scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  .toolbar{width:100%;justify-content:flex-start;flex-wrap:wrap}
+  .btn{flex:1;text-align:center}
+  .avatar{width:72px;height:72px}
+  main{gap:12px}
+}
+
+/* smooth but subtle custom scrollbar (webkit) */
+::-webkit-scrollbar{height:10px;width:10px}
+::-webkit-scrollbar-thumb{
+  background: linear-gradient(180deg, rgba(59,130,246,.12), rgba(59,130,246,.06));
+  border-radius:999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-track{background:transparent}
+
+/* small utility classes */
+.kicker{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:rgba(0,0,0,.04);font-size:13px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+
+/* lightweight glass cards for contrast sections */
+.card-glass{
+  background: linear-gradient(180deg, rgba(255,255,255,.6), rgba(255,255,255,.32));
+  border:1px solid var(--glass-border); border-radius:var(--radius);
+  box-shadow: 0 10px 40px rgba(2,6,23,.06); padding:12px;
+}
+
+/* small animated icons using CSS only (for progess/indicators) */
+.pulse{
+  display:inline-block;width:10px;height:10px;border-radius:50%;
+  background:var(--accent); box-shadow:0 6px 18px rgba(255,126,48,.16);
+  animation: pulse 1.8s infinite ease-in-out;
+}
+@keyframes pulse{0%{transform:scale(.88);opacity:.9}50%{transform:scale(1.12);opacity:1}100%{transform:scale(.88);opacity:.9}}
+
+/* grouped card list with staggered entrance (CSS-only) */
+.card-list > *{opacity:0; transform:translateY(10px); animation: staggerIn var(--normal) var(--spring-cubic) forwards}
+.card-list > *:nth-child(1){animation-delay:60ms}
+.card-list > *:nth-child(2){animation-delay:120ms}
+.card-list > *:nth-child(3){animation-delay:180ms}
+.card-list > *:nth-child(4){animation-delay:240ms}
+@keyframes staggerIn{to{opacity:1;transform:none}}
+
+/* subtle backdrop layering (for modals or overlays — CSS-only friendly) */
+.overlay{
+  position:fixed;inset:0;background:linear-gradient(180deg, rgba(2,6,23,.28), rgba(2,6,23,.5));
+  backdrop-filter: blur(6px) saturate(120%);display:grid;place-items:center;padding:28px;z-index:1200;
+}
+
+/* floating action button */
+.fab{
+  position:fixed;right:26px;bottom:26px;width:64px;height:64px;border-radius:20px;
+  display:grid;place-items:center;background:linear-gradient(180deg,var(--accent),#ff5a3d);color:#fff;
+  box-shadow:0 22px 60px rgba(255,126,48,.16);transform:translateY(0);transition:transform var(--fast);
+}
+.fab:hover{transform:translateY(-6px);box-shadow:0 30px 80px rgba(255,126,48,.18)}
+
+/* keyboard-only focus helpers - only show when tabbing */
+:root:not(.using-mouse) :focus{box-shadow: 0 0 0 4px rgba(59,130,246,.12)}
+
+/* ===================================================================
+   Accessibility: prefer-reduced-motion
+   =================================================================== */
+@media (prefers-reduced-motion: reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  header{animation:none}
+  .preview{animation:none}
+  .card-list>*{opacity:1;transform:none}
+  .toast{transition:none}
+}
+
+/* ===================================================================
+   Developer helpers (comment out in production if you like)
+   - .show and .active classes are CSS-only toggles that can be applied
+   - nothing requires JS to exist; any toggling will work if HTML uses
+     :checked or :target or server-side classes.
+   =================================================================== */
+
+/* small shadow helpers */
+.shadow-soft{box-shadow:0 8px 40px rgba(2,6,23,.06)}
+.shadow-strong{box-shadow:0 24px 80px rgba(2,6,23,.14)}
+
+/* subtle transform utility */
+.lift:hover{transform:translateY(-6px);transition:transform var(--fast) var(--spring-cubic)}
+
+/* final polish: slightly increase contrast for dark mode text inside cards */
+[data-theme="dark"] aside, [data-theme="dark"] section{color:var(--text); background: linear-gradient(180deg, rgba(15,23,34,.6), rgba(10,16,26,.5))}
+
+/* ==================== ADVANCED ANIMATIONS ==================== */
+/* Particle background effect */
+.particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: linear-gradient(45deg, rgba(59,130,246,0.15), rgba(110,168,255,0.1));
+  animation: floatParticle 20s infinite linear;
+  opacity: 0.4;
+}
+
+@keyframes floatParticle {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 0.4;
+  }
+  25% {
+    transform: translateY(-20vh) translateX(10vw) rotate(90deg);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(10vh) translateX(20vw) rotate(180deg);
+    opacity: 0.8;
+  }
+  75% {
+    transform: translateY(20vh) translateX(-10vw) rotate(270deg);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(0) translateX(0) rotate(360deg);
+    opacity: 0.4;
+  }
+}
+
+/* Glowing effect for interactive elements */
+.glow {
+  position: relative;
+  z-index: 1;
+}
+
+.glow::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(45deg, #ff6b6b, #ffa86b, #ffd56b, #a8ff6b, #6bffb8, #6bd5ff, #6b8aff, #c46bff, #ff6bc4);
+  background-size: 400%;
+  animation: glowing 20s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  filter: blur(8px);
+}
+
+.glow:hover::before {
+  opacity: 0.6;
+}
+
+@keyframes glowing {
+  0% { background-position: 0 0; }
+  50% { background-position: 400% 0; }
+  100% { background-position: 0 0; }
+}
+
+/* Advanced hover effects for cards */
+.advanced-card {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.advanced-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.advanced-card:hover::before {
+  opacity: 1;
+}
+
+.advanced-card::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 70%);
+  transition: width 0.6s ease, height 0.6s ease, opacity 0.6s ease;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.advanced-card:hover::after {
+  width: 300px;
+  height: 300px;
+  opacity: 1;
+}
+
+/* 3D transform effects */
+.transform-3d {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  transition: transform 0.5s ease;
+}
+
+.transform-3d:hover {
+  transform: translateZ(10px) rotateX(2deg) rotateY(2deg);
+}
+
+/* Text gradient animation */
+.animated-gradient {
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899, #f59e0b, #84cc16);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientText 8s ease infinite;
+}
+
+@keyframes gradientText {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Morphing background */
+.morph-bg {
+  position: relative;
+  overflow: hidden;
+}
+
+.morph-bg::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, #3b82f6, #6ea8ff, #8b5cf6, #a855f7, #ec4899);
+  background-size: 400% 400%;
+  animation: gradientMove 15s ease infinite, morph 20s ease-in-out infinite;
+  opacity: 0.05;
+  z-index: -1;
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+}
+
+@keyframes morph {
+  0% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+  25% { border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%; }
+  50% { border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%; }
+  75% { border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%; }
+  100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Advanced button effects */
+.btn-advanced {
+  position: relative;
+  overflow: hidden;
+  transform: translate3d(0, 0, 0);
+}
+
+.btn-advanced:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: all 0.5s ease;
+  transform: translateX(-100%);
+}
+
+.btn-advanced:hover:before {
+  transform: translateX(100%);
+}
+
+/* Floating elements animation */
+@keyframes floating {
+  0% { transform: translate(0, 0px) rotate(0deg); }
+  50% { transform: translate(0, -15px) rotate(5deg); }
+  100% { transform: translate(0, 0px) rotate(0deg); }
+}
+
+.floating {
+  animation: floating 6s ease-in-out infinite;
+}
+
+.floating-slow {
+  animation: floating 10s ease-in-out infinite;
+}
+
+.floating-fast {
+  animation: floating 4s ease-in-out infinite;
+}
+
+/* Neon glow effect */
+.neon {
+  color: #fff;
+  text-shadow: 
+    0 0 5px currentColor,
+    0 0 10px currentColor,
+    0 0 20px currentColor,
+    0 0 40px currentColor,
+    0 0 80px currentColor;
+  animation: neonPulse 2s infinite alternate;
+}
+
+@keyframes neonPulse {
+  from {
+    text-shadow: 
+      0 0 5px currentColor,
+      0 0 10px currentColor,
+      0 0 20px currentColor,
+      0 0 40px currentColor;
+  }
+  to {
+    text-shadow: 
+      0 0 10px currentColor,
+      0 0 20px currentColor,
+      0 0 40px currentColor,
+      0 0 80px currentColor;
+  }
+}
+
+/* Advanced typing animation */
+.typing-animation {
+  overflow: hidden;
+  border-right: 2px solid;
+  white-space: nowrap;
+  animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: var(--primary-solid); }
+}
+
+/* Hover reveal effect */
+.hover-reveal {
+  position: relative;
+  overflow: hidden;
+}
+
+.hover-reveal-content {
+  transition: transform 0.5s ease;
+}
+
+.hover-reveal:hover .hover-reveal-content {
+  transform: translateY(-100%);
+}
+
+.hover-reveal-caption {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.5s ease;
+}
+
+.hover-reveal:hover .hover-reveal-caption {
+  transform: translateY(-100%);
+}
+
+/* Advanced loader animation */
+.advanced-loader {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  position: relative;
+  animation: rotate 1s linear infinite;
+}
+
+.advanced-loader::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(transparent, transparent, transparent, var(--primary-solid));
+  animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Parallax effect */
+.parallax-container {
+  perspective: 1px;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.parallax-layer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.parallax-back {
+  transform: translateZ(-1px) scale(2);
+}
+
+.parallax-base {
+  transform: translateZ(0);
+}
+
+.parallax-front {
+  transform: translateZ(1px) scale(0.5);
+}
+
+/* Advanced checkbox and radio buttons */
+.advanced-checkbox {
+  position: relative;
+  cursor: pointer;
+}
+
+.advanced-checkbox input {
+  opacity: 0;
+  position: absolute;
+}
+
+.advanced-checkbox .checkmark {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--muted);
+  border-radius: 4px;
+  display: inline-block;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.advanced-checkbox input:checked ~ .checkmark {
+  background-color: var(--primary-solid);
+  border-color: var(--primary-solid);
+  animation: checkAnim 0.5s ease;
+}
+
+.advanced-checkbox input:checked ~ .checkmark::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 6px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+@keyframes checkAnim {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* Advanced input focus effects */
+.advanced-input {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.advanced-input input {
+  width: 100%;
+  padding: 10px 0;
+  border: none;
+  border-bottom: 2px solid var(--muted);
+  background-color: transparent;
+  outline: none;
+  transition: 0.3s;
+}
+
+.advanced-input label {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  color: var(--muted);
+  transition: 0.3s;
+  pointer-events: none;
+}
+
+.advanced-input input:focus ~ label,
+.advanced-input input:valid ~ label {
+  top: -20px;
+  left: 0;
+  color: var(--primary-solid);
+  font-size: 12px;
+}
+
+.advanced-input input:focus {
+  border-bottom: 2px solid var(--primary-solid);
+}
+
+.advanced-input .underline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--primary-solid);
+  transition: 0.4s;
+}
+
+.advanced-input input:focus ~ .underline {
+  width: 100%;
+}
+
+/* End of stylesheet */
 </style>
 <!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -107,80 +817,83 @@ aside, section { background: var(--card); border-radius: var(--radius); padding:
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
 </head>
 <body data-theme="light">
-<header class="container">
+<!-- Particle background -->
+<div class="particles" id="particles"></div>
+
+<header class="container glow advanced-card transform-3d">
   <div class="brand">
-    <div class="logo">TP</div>
+    <div class="logo floating">TP</div>
     <div>
-      <div style="font-weight:700" data-i18n="appName">تقی پور نشر</div>
+      <div style="font-weight:700" data-i18n="appName" class="animated-gradient">تقی پور نشر</div>
       <div class="muted" style="font-size:13px" data-i18n="appSubtitle">پلتفرم اشتراک گذاری افکار</div>
     </div>
   </div>
   <nav id="tabs">
-    <a href="#home" data-page="home" class="active" data-i18n="home">خانه</a>
-    <a href="#rules" data-page="rules" data-i18n="rules">قوانین</a>
-    <a href="#settings" data-page="settings" data-i18n="settings">تنظیمات</a>
-    <a href="#contact" data-page="contact" data-i18n="contact">ارتباط با ما</a>
+    <a href="#home" data-page="home" class="active btn-advanced" data-i18n="home">خانه</a>
+    <a href="#rules" data-page="rules" class="btn-advanced" data-i18n="rules">قوانین</a>
+    <a href="#settings" data-page="settings" class="btn-advanced" data-i18n="settings">تنظیمات</a>
+    <a href="#contact" data-page="contact" class="btn-advanced" data-i18n="contact">ارتباط با ما</a>
   </nav>
   <div class="toolbar">
-    <button id="language-toggle" class="btn ghost" data-i18n="language">English</button>
-    <button id="theme-toggle" class="btn ghost" data-i18n="darkMode">حالت شب</button>
-    <button id="login-open" class="btn" data-i18n="loginSignup">ورود / ثبت</button>
-    <button id="logout" class="btn" style="display:none;background:var(--danger)" data-i18n="logout">خروج</button>
+    <button id="language-toggle" class="btn ghost btn-advanced" data-i18n="language">English</button>
+    <button id="theme-toggle" class="btn ghost btn-advanced" data-i18n="darkMode">حالت شب</button>
+    <button id="login-open" class="btn btn-advanced" data-i18n="loginSignup">ورود / ثبت</button>
+    <button id="logout" class="btn btn-advanced" style="display:none;background:var(--danger)" data-i18n="logout">خروج</button>
   </div>
 </header>
 
 <div class="container">
   <main>
-    <aside>
+    <aside class="advanced-card transform-3d morph-bg">
       <div class="user-card">
-        <img id="avatar" class="avatar" src="https://ui-avatars.com/api/?name=Guest&background=6e9cd2&color=fff" alt="avatar">
+        <img id="avatar" class="avatar floating-slow" src="https://ui-avatars.com/api/?name=Guest&background=6e9cd2&color=fff" alt="avatar">
         <h3 id="displayName" data-i18n="guest">مهمان</h3>
         <div id="userEmail" class="muted" data-i18n="loginToPost">برای ارسال پیام وارد شوید</div>
       </div>
 
       <div style="height:12px"></div>
 
-      <div class="card">
+      <div class="card advanced-card">
         <strong data-i18n="filters">فیلترها</strong>
         <div style="height:8px"></div>
         <div class="filters">
-          <input id="search" type="text" placeholder="جستجو در متن پیام..." data-i18n-placeholder="searchPlaceholder">
+          <input id="search" type="text" placeholder="جستجو در متن پیام..." data-i18n-placeholder="searchPlaceholder" class="advanced-input">
           <div style="height:8px"></div>
-          <label><input id="mine" type="checkbox" data-i18n="onlyMyPosts"> فقط پیام‌های من</label><br>
-          <label><input id="likedOnly" type="checkbox" data-i18n="onlyLiked"> فقط لایک‌شده‌ها</label>
+          <label class="advanced-checkbox"><input id="mine" type="checkbox" data-i18n="onlyMyPosts"> <span class="checkmark"></span> فقط پیام‌های من</label><br>
+          <label class="advanced-checkbox"><input id="likedOnly" type="checkbox" data-i18n="onlyLiked"> <span class="checkmark"></span> فقط لایک‌شده‌ها</label>
           <div style="height:8px"></div>
-          <select id="sort">
+          <select id="sort" class="advanced-input">
             <option value="new" data-i18n="newest">جدیدترین</option>
             <option value="old" data-i18n="oldest">قدیمی‌ترین</option>
             <option value="popular" data-i18n="mostPopular">محبوب‌ترین</option>
           </select>
           <div style="height:8px"></div>
-          <button id="applyFilters" class="btn" data-i18n="applyFilters">اعمال فیلتر</button>
+          <button id="applyFilters" class="btn btn-advanced" data-i18n="applyFilters">اعمال فیلتر</button>
         </div>
       </div>
 
       <div style="height:12px"></div>
 
-      <div class="card">
+      <div class="card advanced-card">
         <strong data-i18n="contactUs">ارتباط با ما</strong>
         <div style="margin-top:8px">
-          <a href="https://www.instagram.com/parhammmm322/" target="_blank" data-i18n="instagram">اینستاگرام: @parhammmm322</a><br>
-          <a href="https://t.me/mmdparham91" target="_blank" data-i18n="telegram">تلگرام: mmdparham91</a>
+          <a href="https://www.instagram.com/parhammmm322/" target="_blank" data-i18n="instagram" class="btn-advanced">اینستاگرام: @parhammmm322</a><br>
+          <a href="https://t.me/mmdparham91" target="_blank" data-i18n="telegram" class="btn-advanced">تلگرام: mmdparham91</a>
         </div>
       </div>
     </aside>
 
-    <section>
+    <section class="advanced-card transform-3d morph-bg">
       <!-- PAGES WRAPPER -->
       <div id="page-home" class="page active">
         <div id="composer" class="composer" style="display:none">
-          <div class="card">
+          <div class="card advanced-card">
             <h3 data-i18n="newPost">نوشتن پیام جدید</h3>
-            <textarea id="text" placeholder="چی در ذهنت هست؟" data-i18n-placeholder="whatsOnMind"></textarea>
+            <textarea id="text" placeholder="چی در ذهنت هست؟" data-i18n-placeholder="whatsOnMind" class="advanced-input"></textarea>
             <div id="charCounter" class="muted" style="margin-top:6px; font-size:12px; display:none"></div>
             <div class="row" style="margin-top:8px">
               <input id="media" type="file" accept="image/*,video/*">
-              <button id="clearMedia" class="btn secondary" data-i18n="clearFile">حذف فایل</button>
+              <button id="clearMedia" class="btn secondary btn-advanced" data-i18n="clearFile">حذف فایل</button>
               <span class="muted" id="uploadHint" data-i18n="optionalMedia">(اختیاری: عکس/ویدیو)</span>
               <div class="muted" style="margin-inline-start:auto" data-i18n="totalPosts">کل پیام‌ها: <span id="count">0</span></div>
             </div>
@@ -193,9 +906,9 @@ aside, section { background: var(--card); border-radius: var(--radius); padding:
             </div>
             <div style="height:8px"></div>
             <div class="controls">
-              <button id="post" class="btn" data-i18n="send">ارسال</button>
-              <button id="saveDraft" class="btn secondary" style="display:none" data-i18n="saveDraft">ذخیره پیش‌نویس</button>
-              <button id="clearDraft" class="btn secondary" style="display:none" data-i18n="clearDraft">حذف پیش‌نویس</button>
+              <button id="post" class="btn btn-advanced" data-i18n="send">ارسال</button>
+              <button id="saveDraft" class="btn secondary btn-advanced" style="display:none" data-i18n="saveDraft">ذخیره پیش‌نویس</button>
+              <button id="clearDraft" class="btn secondary btn-advanced" style="display:none" data-i18n="clearDraft">حذف پیش‌نویس</button>
             </div>
           </div>
         </div>
@@ -208,7 +921,7 @@ aside, section { background: var(--card); border-radius: var(--radius); padding:
         <div id="empty" style="display:none;text-align:center;padding:18px;color:var(--muted)" data-i18n="noPostsFound">هیچ پیامی یافت نشد</div>
 
         <div id="pager" style="display:none;text-align:center;margin-top:12px">
-          <button id="loadMore" class="btn" data-i18n="loadMore">بیشتر</button>
+          <button id="loadMore" class="btn btn-advanced" data-i18n="loadMore">بیشتر</button>
         </div>
       </div>
 
@@ -224,13 +937,13 @@ aside, section { background: var(--card); border-radius: var(--radius); padding:
 
       <div id="page-settings" class="page">
         <h3 data-i18n="settings">تنظیمات</h3>
-        <label><input type="checkbox" id="persistTheme" data-i18n="persistTheme"> ذخیره حالت شب/روز</label>
+        <label class="advanced-checkbox"><input type="checkbox" id="persistTheme" data-i18n="persistTheme"> <span class="checkmark"></span> ذخیره حالت شب/روز</label>
         <div style="height:12px"></div>
-        <label><input type="checkbox" id="persistLanguage" data-i18n="persistLanguage"> ذخیره زبان انتخابی</label>
+        <label class="advanced-checkbox"><input type="checkbox" id="persistLanguage" data-i18n="persistLanguage"> <span class="checkmark"></span> ذخیره زبان انتخابی</label>
       </div>
 
       <div id="page-contact" class="page">
-        <h3 data-i18n="contactUs">ارتباط با ما</h3>
+        <h3 data-i18n="contactUs">ارتباط با нам</h3>
         <p data-i18n="contactDescription">برای پیشنهادات و گزارش خطاها از طریق اینستاگرام یا تلگرام در باکس کنار پیام دهید.</p>
       </div>
     </section>
@@ -241,14 +954,22 @@ aside, section { background: var(--card); border-radius: var(--radius); padding:
 
 <!-- Login Modal -->
 <div id="loginModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999">
-  <div style="max-width:420px;margin:8% auto;background:var(--card);padding:16px;border-radius:12px;">
+  <div style="max-width:420px;margin:8% auto;background:var(--card);padding:16px;border-radius:12px;" class="advanced-card transform-3d glow">
     <h3 data-i18n="loginSignup">ورود / ثبت نام</h3>
-    <input id="in-email" type="email" placeholder="ایمیل" data-i18n-placeholder="email" style="width:100%;margin:6px 0;padding:10px;border-radius:10px;border:1px solid rgba(0,0,0,.1)"><br>
-    <input id="in-pass" type="password" placeholder="رمز عبور" data-i18n-placeholder="password" style="width:100%;margin:6px 0;padding:10px;border-radius:10px;border:1px solid rgba(0,0,0,.1)"><br>
+    <div class="advanced-input">
+      <input id="in-email" type="email" required>
+      <label for="in-email" data-i18n="email">ایمیل</label>
+      <div class="underline"></div>
+    </div>
+    <div class="advanced-input">
+      <input id="in-pass" type="password" required>
+      <label for="in-pass" data-i18n="password">رمز عبور</label>
+      <div class="underline"></div>
+    </div>
     <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
-      <button id="emailLogin" class="btn" data-i18n="loginSignup">ورود / ثبت نام</button>
-      <button id="googleLogin" class="btn" style="background:#ea4335" data-i18n="loginWithGoogle">ورود با گوگل</button>
-      <button id="closeLogin" class="btn ghost" data-i18n="cancel">انصراف</button>
+      <button id="emailLogin" class="btn btn-advanced" data-i18n="loginSignup">ورود / ثبت نام</button>
+      <button id="googleLogin" class="btn btn-advanced" style="background:#d42929" data-i18n="loginWithGoogle">ورود با گوگل</button>
+      <button id="closeLogin" class="btn ghost btn-advanced" data-i18n="cancel">انصراف</button>
     </div>
   </div>
 </div>
@@ -286,7 +1007,7 @@ function toast(msg, success=true){
 const translations = {
   fa: {
     appName: "تقی پور نشر",
-    appSubtitle: "پلتفرم اشتراک گذاری افکار",
+    appSubtitle: " پلتفرم اشتراک گذاری افکار و ایده های شما",
     home: "خانه",
     rules: "قوانین",
     settings: "تنظیمات",
@@ -503,7 +1224,6 @@ byId('emailLogin').onclick = ()=>{
       } else toast(err.message,false);
     });
 };
-
 byId('googleLogin').onclick = async ()=>{
   try{
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -619,7 +1339,7 @@ function renderTweets(docs){
     const safeText = (t.text||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     const commentsHTML = (t.comments||[]).map(c=>`<div>${c.user}: ${c.text}</div>`).join('');
     return `
-    <div class="tweet" data-id="${id}">
+    <div class="tweet advanced-card transform-3d" data-id="${id}">
       <div><strong>${t.displayName||translations[currentLanguage]['guest']}</strong> <span class="muted">${t.email||''}</span></div>
       <div>${safeText}</div>
       ${mediaHTML}
@@ -695,6 +1415,101 @@ function loadTweetsRealtime(){
 // Initialize the app
 byId('year').textContent = new Date().getFullYear();
 initLanguage();
+
+// ==================== ADVANCED ANIMATIONS INIT ====================
+// Create particle background
+function createParticles() {
+  const particlesContainer = document.getElementById('particles');
+  const particleCount = 30;
+  
+  for (let i = 0; i < particleCount; i++) {
+    const particle = document.createElement('div');
+    particle.classList.add('particle');
+    
+    // Random size between 20 and 100px
+    const size = Math.random() * 80 + 20;
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
+    
+    // Random position
+    particle.style.left = `${Math.random() * 100}vw`;
+    particle.style.top = `${Math.random() * 100}vh`;
+    
+    // Random animation delay and duration
+    const delay = Math.random() * 20;
+    const duration = Math.random() * 10 + 15;
+    particle.style.animationDelay = `${delay}s`;
+    particle.style.animationDuration = `${duration}s`;
+    
+    particlesContainer.appendChild(particle);
+  }
+}
+
+// Initialize advanced animations
+createParticles();
+
+// Add floating animation to random elements
+function addFloatingAnimations() {
+  const elements = document.querySelectorAll('.logo, .avatar, .btn, .tweet');
+  elements.forEach(el => {
+    const randomDelay = Math.random() * 5;
+    el.style.animationDelay = `${randomDelay}s`;
+  });
+}
+
+addFloatingAnimations();
+
+// Add glow effect to interactive elements
+function addGlowEffects() {
+  const interactiveElements = document.querySelectorAll('.btn, .logo, .tweet, .advanced-card');
+  interactiveElements.forEach(el => {
+    el.classList.add('glow');
+  });
+}
+
+addGlowEffects();
+
+// Add morphing background to main containers
+function addMorphingBackgrounds() {
+  const containers = document.querySelectorAll('aside, section');
+  containers.forEach(container => {
+    container.classList.add('morph-bg');
+  });
+}
+
+addMorphingBackgrounds();
+
+// Add 3D transform effects
+function add3DEffects() {
+  const cards = document.querySelectorAll('.card, .tweet, header');
+  cards.forEach(card => {
+    card.classList.add('transform-3d');
+  });
+}
+
+add3DEffects();
+
+// Add advanced input effects
+function initAdvancedInputs() {
+  const inputs = document.querySelectorAll('.advanced-input input');
+  inputs.forEach(input => {
+    if (input.value) {
+      input.classList.add('has-value');
+    }
+    
+    input.addEventListener('focus', () => {
+      input.classList.add('focused');
+    });
+    
+    input.addEventListener('blur', () => {
+      if (!input.value) {
+        input.classList.remove('focused');
+      }
+    });
+  });
+}
+
+initAdvancedInputs();
 </script>
 
 <!-- ========================= ENHANCEMENTS (ADDED FEATURES) ========================= -->
@@ -725,9 +1540,7 @@ input[type="checkbox"].switch:checked::after { inset-inline-start:18px; }
 </div>
 
 <script>
-/* =========================================================
-   ADDED FEATURES — WITHOUT REMOVING OR CHANGING EXISTING CODE
-   ========================================================= */
+
 
 /* ---------- 0) Fill missing i18n keys & new labels ---------- */
 (function enhanceI18N(){
@@ -898,7 +1711,7 @@ let paged = {
         <input id="toggleLive" type="checkbox" class="switch" checked>
         <span class="muted">${translations[currentLanguage]['liveMode']}</span>
       </label>
-      <button id="refreshFeed" class="btn secondary">⟳</button>
+      <button id="refreshFeed" class="btn secondary btn-advanced">⟳</button>
       <span class="small-muted">Tip: <span class="kbd">Ctrl</span>+<span class="kbd">Enter</span> = ${translations[currentLanguage]['send']}</span>
     </div>
   `;
@@ -997,7 +1810,7 @@ function afterRenderEnhancements(){
         wrap.appendChild(save); wrap.appendChild(document.createTextNode(' ')); wrap.appendChild(cancel);
         textDiv.after(wrap);
         editBtn.disabled = true;
-
+<!--save file------------------------------------->
         save.onclick = async ()=>{
           const newText = editBox.value.trim();
           try{
@@ -1222,4 +2035,3 @@ byId('lightbox').addEventListener('click', ()=> byId('lightbox').style.display='
 </script>
 </body>
 </html>
-
